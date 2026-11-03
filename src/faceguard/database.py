@@ -47,6 +47,92 @@ class FaceDatabase:
             target.close()
         return destination
 
+    def import_database(self, source_path: str | Path) -> tuple[int, int, int]:
+        """Combina otra base FaceGuard y devuelve personas, embeddings y omitidos."""
+        source_path = Path(source_path).resolve()
+        if source_path == self.path.resolve():
+            raise ValueError("La base seleccionada ya es la base activa")
+        if not source_path.is_file():
+            raise ValueError("El archivo SQLite seleccionado no existe")
+
+        source = sqlite3.connect(f"file:{source_path.as_posix()}?mode=ro", uri=True)
+        try:
+            tables = {
+                row[0]
+                for row in source.execute(
+                    "SELECT name FROM sqlite_master WHERE type = 'table'"
+                ).fetchall()
+            }
+            if not {"persons", "embeddings"}.issubset(tables):
+                raise ValueError(
+                    "La base no es compatible: faltan las tablas persons o embeddings"
+                )
+            person_columns = {
+                row[1] for row in source.execute("PRAGMA table_info(persons)").fetchall()
+            }
+            embedding_columns = {
+                row[1] for row in source.execute("PRAGMA table_info(embeddings)").fetchall()
+            }
+            if not {"id", "name"}.issubset(person_columns) or not {
+                "person_id",
+                "vector",
+                "quality",
+            }.issubset(embedding_columns):
+                raise ValueError("La estructura de la base SQLite no es compatible")
+            rows = source.execute(
+                """SELECT p.name, e.vector, e.quality
+                   FROM embeddings e JOIN persons p ON p.id = e.person_id"""
+            ).fetchall()
+        finally:
+            source.close()
+
+        current = self.all_embeddings()
+        # SFace produce vectores float32 de 128 dimensiones (512 bytes).
+        expected_size = current[0][1].nbytes if current else 128 * 4
+        existing = {(name, vector.tobytes()) for name, vector, _quality in current}
+        existing_people = {name for name, _count in self.summary()}
+        people_added = 0
+        embeddings_added = 0
+        skipped = 0
+        now = datetime.now(timezone.utc).isoformat()
+
+        try:
+            for name, blob, quality in rows:
+                if not isinstance(name, str) or not name.strip():
+                    skipped += 1
+                    continue
+                if not isinstance(blob, bytes) or not blob or len(blob) % 4:
+                    raise ValueError(f"Embedding inválido para {name}")
+                if len(blob) != expected_size:
+                    raise ValueError(
+                        f"Los embeddings de {name} no usan SFace o tienen otra dimensión"
+                    )
+                name = name.strip()
+                key = (name, blob)
+                if key in existing:
+                    skipped += 1
+                    continue
+                if name not in existing_people:
+                    self.connection.execute(
+                        "INSERT INTO persons(name, created_at) VALUES (?, ?)", (name, now)
+                    )
+                    existing_people.add(name)
+                    people_added += 1
+                person_id = self.connection.execute(
+                    "SELECT id FROM persons WHERE name = ?", (name,)
+                ).fetchone()[0]
+                self.connection.execute(
+                    "INSERT INTO embeddings(person_id, vector, quality, created_at) VALUES (?, ?, ?, ?)",
+                    (person_id, blob, float(quality), now),
+                )
+                existing.add(key)
+                embeddings_added += 1
+            self.connection.commit()
+        except Exception:
+            self.connection.rollback()
+            raise
+        return people_added, embeddings_added, skipped
+
     def add_embedding(self, name: str, vector: np.ndarray, quality: float) -> None:
         name = name.strip()
         if not name:
