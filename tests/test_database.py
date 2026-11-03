@@ -21,3 +21,14 @@ def test_unknown_below_threshold(tmp_path):
     assert database.best_match(np.array([0.0, 1.0]), 0.4)[0] is None
 
 
+def test_backup_is_readable(tmp_path):
+    database = FaceDatabase(tmp_path / "faces.db")
+    database.add_embedding("Ana", np.array([1.0, 0.0]), 0.8)
+    backup_path = database.backup(tmp_path / "backup.db")
+
+    backup = FaceDatabase(backup_path)
+    assert backup.summary() == [("Ana", 1)]
+    backup.close()
+    database.close()
+
+
