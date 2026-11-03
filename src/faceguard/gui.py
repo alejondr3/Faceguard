@@ -32,6 +32,8 @@ class FaceGuardApp:
         self.collected = 0
         self.last_capture = 0.0
         self.cached_labels: list[tuple[str | None, float]] = []
+        self.video_writer: cv2.VideoWriter | None = None
+        self.recording_path: Path | None = None
         self.photo_image = None
 
         self.root.title("Reconocedor de caras")
@@ -81,16 +83,27 @@ class FaceGuardApp:
 
         row = ttk.Frame(controls)
         row.pack(fill="x", pady=(0, 14))
-        ttk.Label(row, text="Cámara").grid(row=0, column=0, sticky="w")
-        ttk.Label(row, text="Fotos").grid(row=0, column=1, sticky="w", padx=(20, 0))
+        ttk.Label(row, text="Cámara (0 o URL RTSP)").grid(row=0, column=0, columnspan=2, sticky="w")
         self.camera_number = tk.StringVar(value="0")
         self.samples = tk.IntVar(value=30)
-        ttk.Spinbox(row, from_=0, to=9, textvariable=self.camera_number, width=7).grid(
-            row=1, column=0, sticky="w", pady=4
+        ttk.Entry(row, textvariable=self.camera_number, width=32).grid(
+            row=1, column=0, columnspan=2, sticky="ew", pady=(4, 10)
         )
+        ttk.Label(row, text="Cantidad de fotos").grid(row=2, column=0, sticky="w")
         ttk.Spinbox(row, from_=10, to=100, textvariable=self.samples, width=7).grid(
-            row=1, column=1, sticky="w", padx=(20, 0), pady=4
+            row=3, column=0, sticky="w", pady=4
         )
+        ttk.Label(
+            controls,
+            text="Usa 0 para webcam o pega una URL RTSP para una cámara de seguridad.",
+            wraplength=270,
+        ).pack(anchor="w", pady=(0, 10))
+        self.record_video = tk.BooleanVar(value=False)
+        ttk.Checkbutton(
+            controls,
+            text="Grabar reconocimiento en video",
+            variable=self.record_video,
+        ).pack(anchor="w", pady=(0, 12))
 
         self.enroll_button = ttk.Button(
             controls, text="📷  Registrar persona", style="Action.TButton", command=self.start_enrollment
@@ -212,6 +225,8 @@ class FaceGuardApp:
             self._process_recognition(prepared, faces)
 
         rgb = cv2.cvtColor(prepared, cv2.COLOR_BGR2RGB)
+        if self.mode == "recognize" and self.record_video.get():
+            self._write_recording(prepared)
         image = Image.fromarray(rgb)
         image.thumbnail((780, 600), Image.Resampling.LANCZOS)
         self.photo_image = ImageTk.PhotoImage(image=image)
@@ -270,15 +285,47 @@ class FaceGuardApp:
             cv2.rectangle(frame, (x, y), (x + width, y + height), color, 2)
             cv2.putText(frame, label, (x, max(25, y - 8)), cv2.FONT_HERSHEY_SIMPLEX, 0.7, color, 2)
 
+    def _write_recording(self, frame) -> None:
+        if self.video_writer is None:
+            self.settings.recordings_dir.mkdir(parents=True, exist_ok=True)
+            timestamp = time.strftime("%Y%m%d-%H%M%S")
+            self.recording_path = self.settings.recordings_dir / f"reconocimiento-{timestamp}.mp4"
+            height, width = frame.shape[:2]
+            fps = self.camera.get(cv2.CAP_PROP_FPS) if self.camera is not None else 0
+            if not fps or fps < 1 or fps > 120:
+                fps = 20.0
+            self.video_writer = cv2.VideoWriter(
+                str(self.recording_path),
+                cv2.VideoWriter_fourcc(*"mp4v"),
+                fps,
+                (width, height),
+            )
+            if not self.video_writer.isOpened():
+                self.video_writer.release()
+                self.video_writer = None
+                self.record_video.set(False)
+                messagebox.showerror("Grabación", "No se pudo crear el archivo de video.")
+                return
+        self.video_writer.write(frame)
+
     def stop_camera(self, clear_status: bool = True) -> None:
+        saved_recording = None
         self.running = False
         self.loop_id += 1
         self.mode = None
         if self.camera is not None:
             self.camera.release()
             self.camera = None
+        if self.video_writer is not None:
+            self.video_writer.release()
+            self.video_writer = None
+            if self.recording_path is not None:
+                saved_recording = self.recording_path.name
+            self.recording_path = None
         if clear_status:
-            self.status.set("Cámara detenida")
+            self.status.set(
+                f"Video guardado: {saved_recording}" if saved_recording else "Cámara detenida"
+            )
 
     def refresh_people(self) -> None:
         records = self.database.summary()
