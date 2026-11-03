@@ -117,6 +117,9 @@ class FaceGuardApp:
         ttk.Button(controls, text="💾  Crear respaldo", command=self.create_backup).pack(
             fill="x", pady=(8, 0)
         )
+        ttk.Button(controls, text="🗑  Eliminar base de datos", command=self.delete_database).pack(
+            fill="x", pady=(8, 0)
+        )
         self.refresh_people()
 
     def _set_buttons(self, enabled: bool) -> None:
@@ -313,6 +316,51 @@ class FaceGuardApp:
             )
         except Exception as error:
             self._show_error("No se pudo crear el respaldo", error)
+
+    def delete_database(self) -> None:
+        if not self.database.summary():
+            messagebox.showinfo("Base vacía", "La base de datos ya está vacía.")
+            return
+        confirmed = messagebox.askyesno(
+            "Eliminar base de datos",
+            "Se eliminarán permanentemente todas las personas y embeddings.\n\n"
+            "Las fotografías se conservarán en data/photos.\n"
+            "Se recomienda crear un respaldo antes.\n\n"
+            "¿Quieres continuar?",
+            icon="warning",
+        )
+        if not confirmed:
+            return
+        final_confirmation = messagebox.askyesno(
+            "Última confirmación",
+            "Esta acción no se puede deshacer sin un respaldo.\n\n"
+            "¿Eliminar toda la base SQLite?",
+            icon="warning",
+        )
+        if not final_confirmation:
+            return
+        try:
+            self.stop_camera(clear_status=False)
+            database_path = self.database.path
+            self.database.close()
+            for path in (
+                database_path,
+                database_path.with_name(database_path.name + "-wal"),
+                database_path.with_name(database_path.name + "-shm"),
+            ):
+                path.unlink(missing_ok=True)
+            self.database = FaceDatabase(database_path)
+            self.refresh_people()
+            self.status.set("Base de datos eliminada; se creó una base vacía")
+            messagebox.showinfo(
+                "Base eliminada",
+                "Se eliminaron las identidades y se creó una base SQLite vacía.\n"
+                "Las fotografías no fueron eliminadas.",
+            )
+        except Exception as error:
+            # Intenta dejar la aplicación utilizable incluso si falló el borrado.
+            self.database = FaceDatabase(self.settings.database)
+            self._show_error("No se pudo eliminar la base de datos", error)
 
     def close(self) -> None:
         self.stop_camera(clear_status=False)
