@@ -1,26 +1,51 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="420" viewBox="0 0 1200 420" role="img" aria-labelledby="title desc">
-  <title id="title">FRG-05 — FaceGuard recovered artifact</title>
-  <desc id="desc">Portada monocromática estilo manga y fotocopia para el reconocedor facial</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="430" viewBox="0 0 1200 430" role="img" aria-labelledby="title desc">
+  <title id="title">FaceGuard Santa Cruz — tecnología que cuida nuestra tierra</title>
+  <desc id="desc">Portada verde y blanca inspirada en el paisaje y la identidad cruceña</desc>
   <defs>
-    <pattern id="dots" width="7" height="7" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="#fff" opacity=".12"/></pattern>
-    <pattern id="lines" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="1200" height="1" fill="#fff" opacity=".045"/></pattern>
-    <filter id="rough"><feTurbulence baseFrequency=".8" numOctaves="3" seed="7" result="noise"/><feComposite in="noise" in2="SourceGraphic" operator="in" result="texture"/><feBlend in="SourceGraphic" in2="texture" mode="screen"/></filter>
+    <linearGradient id="green" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#005c2b"/><stop offset="1" stop-color="#008b49"/></linearGradient>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f7fff9"/><stop offset="1" stop-color="#dff5e7"/></linearGradient>
+    <pattern id="weave" width="12" height="12" patternUnits="userSpaceOnUse"><path d="M0 12L12 0M-3 3L3-3M9 15l6-6" stroke="#fff" stroke-opacity=".035"/></pattern>
+    <filter id="glow"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
   </defs>
-  <rect width="1200" height="420" fill="#070707"/><rect width="1200" height="420" fill="url(#dots)"/><rect width="1200" height="420" fill="url(#lines)"/>
-  <g transform="translate(56 42)" fill="none" stroke="#f3f3f3">
-    <rect width="310" height="330" stroke-width="2" opacity=".82"/><path d="M0 38h310M34 0v330M276 0v330" opacity=".22"/>
-    <path d="M17 64V17h47M293 64V17h-47M17 266v47h47M293 266v47h-47" stroke-width="5"/>
-    <ellipse cx="155" cy="138" rx="65" ry="84" stroke-width="3" filter="url(#rough)"/><path d="M83 307c7-73 32-106 72-106 41 0 66 33 73 106" stroke-width="3" filter="url(#rough)"/>
-    <path d="M113 125h27m29 0h27m-54 39h25m-40 21c20 13 39 13 57 0" stroke-width="3" opacity=".7"/><path d="M8 88h74m145 0h75M8 154h67m160 0h67M8 221h82m130 0h82" opacity=".22"/>
-  </g>
-  <g transform="translate(418 64)" font-family="Consolas, Menlo, monospace">
-    <text x="0" y="0" fill="#777" font-size="17" letter-spacing="4">RECOVERED ARTIFACT // NODE 005</text>
-    <text x="0" y="80" fill="#f5f5f5" font-family="Arial Black, Impact, sans-serif" font-size="76" letter-spacing="4">FACEGUARD</text>
-    <rect x="0" y="102" width="690" height="4" fill="#eee"/><text x="0" y="146" fill="#bdbdbd" font-size="21">LOCAL FACE RECOGNITION / AFTER HOURS</text><text x="0" y="192" fill="#777" font-size="16">YUNET  //  SFACE  //  SQLITE  //  RTSP</text>
-    <g transform="translate(0 228)"><rect width="230" height="48" fill="#eee"/><text x="18" y="31" fill="#090909" font-size="16" font-weight="700">IDENTITY: UNKNOWN</text><rect x="246" width="195" height="48" fill="none" stroke="#888"/><text x="264" y="31" fill="#ddd" font-size="16">STATUS: WATCHING</text></g>
-    <text x="0" y="320" fill="#f3f3f3" font-size="15" letter-spacing="2">THE CAMERA NEVER BLINKED. THE CLOUD NEVER KNEW.</text>
-  </g>
-  <g opacity=".7"><rect x="0" y="174" width="1200" height="5" fill="#fff"><animate attributeName="opacity" values="0;.75;0" dur="3.7s" repeatCount="indefinite"/></rect><rect x="670" y="55" width="430" height="9" fill="#fff" opacity="0"><animate attributeName="opacity" values="0;0;.55;0;0" dur="4.1s" repeatCount="indefinite"/></rect><rect x="420" y="331" width="570" height="4" fill="#fff" opacity="0"><animate attributeName="opacity" values="0;.35;0;0" dur="2.9s" repeatCount="indefinite"/></rect></g>
-  <rect x="1" y="1" width="1198" height="418" fill="none" stroke="#aaa" stroke-width="2"/>
-</svg>
+  <rect width="1200" height="430" rx="22" fill="url(#green)"/><rect width="1200" height="430" rx="22" fill="url(#weave)"/>
+  <rect y="143" width="1200" height="144" fill="url(#sky)"/>
 
+  <!-- paisaje cruceño estilizado -->
+  <g transform="translate(38 42)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round">
+    <rect width="330" height="346" rx="14" stroke-width="2" opacity=".55"/>
+    <path d="M18 58V18h40M312 58V18h-40M18 288v40h40M312 288v40h-40" stroke-width="5"/>
+    <ellipse cx="165" cy="139" rx="63" ry="80" stroke-width="3"/>
+    <path d="M93 315c8-76 33-110 72-110 41 0 67 34 74 110" stroke-width="3"/>
+    <path d="M122 129h25m35 0h25m-57 40h28m-43 18c20 13 40 13 60 0" stroke-width="3" opacity=".72"/>
+    <path d="M62 96h37m132 0h37M62 158h34m138 0h34M62 220h44m118 0h44" opacity=".35"/>
+  </g>
+
+  <!-- catedral y vegetación en la franja blanca -->
+  <g transform="translate(780 151)" fill="none" stroke="#007a3d" stroke-width="4" opacity=".74">
+    <path d="M38 120V45l28-30 28 30v75M205 120V45l28-30 28 30v75M94 120V70h111v50M122 70V45h55v25"/>
+    <path d="M66 15V0m167 15V0M52 120h195"/>
+    <path d="M295 120V72m0 0c-45-25-48-57-48-57 36 3 52 23 48 57zm0 0c43-24 47-55 47-55-35 2-51 22-47 55zm0-18c-30-26-24-54-24-54 28 9 36 29 24 54z"/>
+  </g>
+
+  <g transform="translate(418 62)" font-family="Segoe UI, Arial, sans-serif">
+    <text x="0" y="0" fill="#d8ffe8" font-family="Consolas, monospace" font-size="17" letter-spacing="4">PROYECTO TECNOLÓGICO // SANTA CRUZ</text>
+    <text x="0" y="78" fill="#fff" font-size="72" font-weight="800" letter-spacing="3">FACEGUARD</text>
+    <text x="0" y="145" fill="#006b35" font-size="26" font-weight="700">RECONOCIMIENTO FACIAL LOCAL</text>
+    <text x="0" y="188" fill="#28744c" font-size="18">YuNet · SFace · SQLite · RTSP · Video</text>
+    <text x="0" y="272" fill="#fff" font-size="25" font-weight="600">Tecnología hecha desde Santa Cruz</text>
+    <text x="0" y="306" fill="#d7ffe7" font-size="20">para cuidar a nuestra gente y nuestros datos.</text>
+  </g>
+
+  <!-- flor de patujú abstracta -->
+  <g transform="translate(1090 310) rotate(-15)">
+    <path d="M0 80C20 42 32 18 44 0" fill="none" stroke="#fff" stroke-width="5"/>
+    <path d="M37 18c-28-7-42 4-42 4 17 18 31 17 42-4" fill="#f5c400"/>
+    <path d="M43 5c18-10 37-3 37-3-8 23-23 27-37 3" fill="#df2b2b"/>
+    <path d="M25 41c-25-2-35 11-35 11 20 13 34 7 35-11" fill="#f5c400"/>
+    <path d="M32 29c21-7 37 3 37 3-12 20-27 21-37-3" fill="#df2b2b"/>
+  </g>
+
+  <rect y="0" width="1200" height="6" fill="#fff" opacity=".75"/><rect y="424" width="1200" height="6" fill="#fff" opacity=".75"/>
+  <rect x="0" y="0" width="1200" height="4" fill="#baffd2" opacity="0"><animate attributeName="y" values="8;418;8" dur="5s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;.55;0" dur="5s" repeatCount="indefinite"/></rect>
+  <circle cx="1146" cy="55" r="7" fill="#fff" filter="url(#glow)"><animate attributeName="opacity" values="1;.25;1" dur="1.4s" repeatCount="indefinite"/></circle>
+</svg>

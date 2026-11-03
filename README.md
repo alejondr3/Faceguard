@@ -1,176 +1,182 @@
 <p align="center">
-  <img src="assets/readme-banner.svg" width="100%" alt="FRG-05 — FaceGuard. Artefacto recuperado de reconocimiento facial local." />
-  <img src="https://raw.githubusercontent.com/alejondr3/alejondr3/main/assets/visual-v3/signal.gif" width="100%" alt="LINK ESTABLISHED — AFTER HOURS / 001. Franja de señal animada." />
-</p>
-
-<p align="center"><samp>「 la cámara sigue mirando. la nube no. 」</samp></p>
-
-<p align="center">
-  <a href="#expediente">expediente</a> &nbsp; / &nbsp;
-  <a href="#ritual-de-instalacion">ritual de instalación</a> &nbsp; / &nbsp;
-  <a href="#fuentes-recuperadas">fuentes recuperadas</a> &nbsp; / &nbsp;
-  <a href="#vault">vault</a> &nbsp; / &nbsp;
-  <a href="#opsec">opsec</a>
+  <img src="assets/readme-banner.svg" width="100%" alt="FaceGuard Santa Cruz — tecnología que cuida nuestra tierra." />
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/github/actions/workflow/status/alejondr3/Reconocedor-de-caras/tests.yml?branch=main&style=flat-square&label=BUILD&color=111111" alt="Estado del build" />
-  <img src="https://img.shields.io/github/last-commit/alejondr3/Reconocedor-de-caras?style=flat-square&label=LAST%20SIGNAL&color=333333" alt="Último commit" />
-  <img src="https://img.shields.io/badge/Python-3.10%2B-111111?style=flat-square&logo=python&logoColor=white" alt="Python 3.10 o superior" />
-  <img src="https://img.shields.io/badge/License-MIT-111111?style=flat-square" alt="Licencia MIT" />
+  <samp>「 tecnología cruceña, datos en casa y reconocimiento al toque 」</samp>
 </p>
+
+<p align="center">
+  <a href="#el-proyecto">el proyecto</a> &nbsp;•&nbsp;
+  <a href="#instalacion">instalación</a> &nbsp;•&nbsp;
+  <a href="#camaras">cámaras</a> &nbsp;•&nbsp;
+  <a href="#base-de-datos">base de datos</a> &nbsp;•&nbsp;
+  <a href="#privacidad">privacidad</a>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/github/actions/workflow/status/alejondr3/Reconocedor-de-caras/tests.yml?branch=main&style=flat-square&label=COMPILACI%C3%93N&color=007A3D" alt="Estado de compilación" />
+  <img src="https://img.shields.io/github/last-commit/alejondr3/Reconocedor-de-caras?style=flat-square&label=%C3%9ALTIMA%20ACTUALIZACI%C3%93N&color=007A3D" alt="Última actualización" />
+  <img src="https://img.shields.io/badge/Python-3.10%2B-007A3D?style=flat-square&logo=python&logoColor=white" alt="Python 3.10 o superior" />
+  <img src="https://img.shields.io/badge/PROCESAMIENTO-LOCAL-007A3D?style=flat-square" alt="Procesamiento local" />
+</p>
+
+> [!IMPORTANT]
+> **Prototipo tecnológico para presentación.** Este repositorio no es un sitio
+> oficial, no usa el logotipo institucional y no implica aval formal del Gobierno
+> Autónomo Departamental de Santa Cruz. Cualquier despliegue institucional debe
+> pasar por revisión técnica, jurídica, de seguridad y de identidad corporativa.
 
 <br />
 
-<a id="expediente"></a>
+<a id="el-proyecto"></a>
 
-### 01 / expediente recuperado
+## 01 / El proyecto
 
-FaceGuard es un motor local de reconocimiento facial para webcam, cámaras IP y
-videos. **YuNet** encuentra el rostro. **SFace** lo transforma en un vector.
-**SQLite** conserva la memoria. Ningún servicio biométrico externo recibe las
-imágenes.
+**FaceGuard Santa Cruz** es un sistema local de reconocimiento facial para
+webcams, cámaras IP y videos existentes. Está pensado como una demostración de
+tecnología aplicada desde Santa Cruz, con énfasis en privacidad y funcionamiento
+con cámaras de calidad variable.
 
-| campo | registro |
+| componente | qué hace |
 | --- | --- |
-| `artifact` | FRG-05 / Reconocedor de caras |
-| `operator` | alejondr3 / night node 001 |
-| `inputs` | webcam · RTSP · MP4 · AVI · MOV · MKV · WMV |
-| `engine` | OpenCV YuNet + SFace |
-| `memory` | SQLite vector vault |
-| `output` | identidad · desconocido · grabación anotada |
-| `cloud telemetry` | ninguna después de descargar los modelos |
-| `status` | **STILL WATCHING** |
+| `YuNet` | detecta una o varias caras en la imagen |
+| `SFace` | convierte cada rostro en un vector biométrico |
+| `SQLite` | guarda nombres y embeddings de manera local |
+| `RTSP` | conecta cámaras de seguridad en tiempo real |
+| `Low-quality mode` | mejora contraste, tamaño y estabilidad temporal |
+| `Recorder` | genera videos MP4 con nombres y rectángulos |
 
-<p align="center"><img src="assets/live-terminal.svg" width="100%" alt="Registro nocturno animado del motor FaceGuard." /></p>
+<p align="center">
+  <img src="assets/live-terminal.svg" width="100%" alt="Nodo cruceño de FaceGuard funcionando en tiempo real." />
+</p>
 
 <details>
-<summary><samp>[ RESTRICTED / abrir manifiesto de capacidades ]</samp></summary>
+<summary><strong>🌴 Modo camba técnico — abrir glosario</strong></summary>
 
-| protocolo | capacidad |
+| como lo decimos | qué significa técnicamente |
 | --- | --- |
-| `DETECT` | una o varias caras mediante YuNet |
-| `IDENTIFY` | embeddings SFace comparados localmente |
-| `LOW-QUALITY` | CLAHE, escalado, doble realce y memoria temporal |
-| `LIVE-LINK` | webcam y cámaras de seguridad RTSP |
-| `RECOVERED-FOOTAGE` | análisis de archivos de video existentes |
-| `RECORD` | exportación MP4 con nombres y rectángulos |
-| `VAULT` | importar, respaldar o purgar SQLite |
-| `UNKNOWN-REJECT` | una similitud insuficiente queda como Desconocido |
+| **levantalo al toque** | iniciar la aplicación y cargar los modelos |
+| **de una, puej** | ejecutar el flujo sin pasos innecesarios |
+| **cámara mañosa** | fuente con baja resolución, ruido o compresión |
+| **sin hacer macanas** | validar antes de borrar, importar o desplegar |
+| **quedó joya** | reconocimiento estable después de calibrar |
+| **datos en casa** | procesamiento local sin API biométrica externa |
+| **no te aplazés con el umbral** | medir falsos positivos antes de bajarlo |
 
 </details>
 
 <br />
 
-<a id="ritual-de-instalacion"></a>
+<a id="instalacion"></a>
 
-### 02 / ritual de instalación
+## 02 / Instalación al toque
 
-#### Windows — sin invocar la terminal
+### Windows — sin usar consola
 
-1. Instala [Python 3.10 o superior](https://www.python.org/downloads/) y marca **Add Python to PATH**.
-2. En GitHub pulsa **Code → Download ZIP**.
-3. Descomprime el archivo. No ejecutes el proyecto dentro del ZIP.
+1. Instala [Python 3.10 o superior](https://www.python.org/downloads/) y marca
+   **Add Python to PATH**.
+2. Pulsa **Code → Download ZIP** en GitHub.
+3. Descomprime el proyecto en una carpeta normal.
 4. Haz doble clic en `instalar.bat`.
 5. Espera hasta ver **INSTALACIÓN COMPLETADA**.
 6. Abre el sistema con `iniciar.bat`.
 
-> La primera instalación necesita Internet para descargar OpenCV y los modelos
-> ONNX. Después, el nodo puede operar sin conexión.
+La primera instalación descarga OpenCV y dos modelos ONNX. Después de eso puede
+funcionar sin Internet.
 
-#### Primer registro
+### Registrar una persona
 
 1. Escribe el nombre del participante autorizado.
-2. Deja `0` como fuente para usar la webcam principal.
+2. Deja `0` como cámara para usar la webcam principal.
 3. Mantén activo **Modo cámara de baja calidad**.
 4. Selecciona entre 30 y 60 fotografías.
-5. Pulsa **Registrar persona** y gira lentamente la cabeza.
-6. Repite bajo la iluminación y distancia de la cámara definitiva.
+5. Pulsa **Registrar persona**.
+6. Mira al frente y gira lentamente la cabeza.
 
-```text
-03:07  iniciando "solo voy a registrar una cara"
-03:19  la cara ahora tiene 128 dimensiones
-03:46  SQLite conoce mi perfil izquierdo
-04:12  MATCH
-04:13  no sé por qué la webcam me juzga
-04:14  git commit
---:--  la sesión nunca se cerró
-```
+> **Consejo de la casa:** registrá a la persona con la misma cámara, distancia e
+> iluminación que tendrá el sistema final. Así no hay sorpresas después, puej.
 
 <br />
 
-<a id="fuentes-recuperadas"></a>
+<a id="camaras"></a>
 
-### 03 / fuentes recuperadas
+## 03 / Cámaras y videos
 
-#### Cámara de seguridad / RTSP
+### Webcam
 
-La cámara debe ofrecer un stream RTSP. Actívalo desde la configuración del
-fabricante y crea un usuario de solo lectura.
+Usa `0` para la cámara principal. Si tienes varias, prueba `1`, `2` o `3`.
+
+### Cámara de seguridad mediante RTSP
+
+La cámara debe ofrecer un stream RTSP. Actívalo en su configuración y crea un
+usuario exclusivo de solo lectura.
 
 ```text
 rtsp://usuario:contraseña@192.168.1.50:554/ruta-del-stream
 ```
 
 1. Conecta la computadora y la cámara a la misma red.
-2. Prueba la URL en VLC con **Medio → Abrir ubicación de red**.
-3. Pega la URL en **Cámara (0 o URL RTSP)**.
-4. Activa **Grabar reconocimiento en video** si necesitas evidencia procesada.
+2. Prueba primero la URL en VLC.
+3. Pégala en **Cámara (0 o URL RTSP)**.
+4. Marca **Grabar reconocimiento en video** si necesitas una copia procesada.
 5. Pulsa **Iniciar reconocimiento**.
-6. Detén la cámara antes de cerrar para finalizar correctamente el MP4.
 
-Las grabaciones aparecen en `data/recordings/`. No publiques una URL RTSP:
+Las grabaciones quedan en `data/recordings/`. No publiques la URL RTSP porque
 normalmente contiene credenciales reales.
 
-#### Video existente
+### Analizar un video existente
 
 1. Pulsa **Elegir video**.
 2. Selecciona MP4, AVI, MOV, MKV, M4V o WMV.
-3. Activa la grabación si quieres una copia con las identidades dibujadas.
+3. Activa la grabación si quieres conservar el resultado anotado.
 4. Pulsa **Iniciar reconocimiento**.
 
-El original no cambia. El análisis termina automáticamente al llegar al último
-cuadro.
+El original nunca se modifica. El análisis termina automáticamente al llegar al
+último cuadro.
 
 <br />
 
-### 04 / protocolo para imágenes que casi desaparecieron
+## 04 / Protocolo para cámaras mañosas
 
-El modo de baja calidad amplía el cuadro, aplica CLAHE, genera una segunda
-lectura con realce de detalle y conserva temporalmente una identidad durante
-cuadros borrosos. Ayuda con compresión, poca luz y cámaras antiguas; no puede
-reconstruir información que nunca fue capturada.
+El modo de baja calidad amplía el cuadro, aplica CLAHE, crea una segunda lectura
+con realce de detalle y conserva temporalmente una identidad durante cuadros
+borrosos.
 
-1. Registra a cada persona usando la cámara final o un video producido por ella.
-2. Captura 40–60 vistas con ángulos, luz y distancia diferentes.
-3. Empieza con umbral `0.36`; prueba `0.34` si rechaza conocidos.
+1. Registra 40–60 vistas desde la cámara real.
+2. Empieza con umbral `0.36`.
+3. Si rechaza conocidos, prueba `0.34`.
 4. Si confunde personas, sube a `0.40` o `0.44`.
-5. No bajes de `0.30` y prueba también con personas no registradas.
-6. La cara debería medir al menos unos 55 píxeles.
+5. No bajes de `0.30`.
+6. Prueba también con personas no registradas.
+7. Procura que la cara mida al menos unos 55 píxeles.
 
-> **UNKNOWN IS A VALID ANSWER.** Forzar siempre una identidad aumenta los falsos positivos.
+> **Desconocido también es una respuesta válida.** Forzar una identidad cuando
+> no hay detalle suficiente aumenta los falsos positivos. Ni el mejor código
+> puede inventar los píxeles que la cámara nunca capturó.
 
 <br />
 
-<a id="vault"></a>
+<a id="base-de-datos"></a>
 
-### 05 / biometric vault
+## 05 / Base de datos — todo en casa
 
-La memoria activa vive en `data/faces.db`. Guarda nombres, embeddings y calidad;
-las fotografías permanecen separadas en `data/photos/`. Todo está ignorado por Git.
+La memoria activa vive en `data/faces.db`. Las fotografías están en
+`data/photos/` y las grabaciones en `data/recordings/`. Estas rutas están
+excluidas de Git.
 
-| operación | efecto |
+| opción | resultado |
 | --- | --- |
-| **Importar base SQLite** | valida y combina personas y vectores compatibles |
-| **Crear respaldo** | genera un ZIP con SQLite y fotografías |
-| **Eliminar base de datos** | pide doble confirmación y crea una base vacía |
-| **Actualizar lista** | vuelve a leer los expedientes registrados |
+| **Importar base SQLite** | valida y combina personas y embeddings |
+| **Crear respaldo** | genera un ZIP con la base y las fotografías |
+| **Eliminar base de datos** | pide dos confirmaciones y crea una base vacía |
+| **Actualizar lista** | vuelve a leer las personas registradas |
 
-Antes de importar se crea un cold snapshot automático en `data/backups/`. Los
-registros idénticos se omiten. Las fotografías no viajan dentro de SQLite.
+Antes de importar se crea automáticamente un respaldo en `data/backups/`. Los
+registros repetidos se omiten. Sin vueltas y sin hacer macanas.
 
 <details>
-<summary><samp>[ CLI ACCESS / comandos para operadores ]</samp></summary>
+<summary><strong>⌨️ Acceso técnico por consola</strong></summary>
 
 ```powershell
 python -m venv .venv
@@ -193,67 +199,49 @@ faceguard recognize --camera "rtsp://usuario:clave@192.168.1.50/stream"
 
 <br />
 
-<a id="opsec"></a>
+<a id="privacidad"></a>
 
-### 06 / opsec notes
+## 06 / Privacidad y uso responsable
 
-**Activos sensibles:** fotografías, videos, nombres, credenciales RTSP y
-embeddings. Un embedding sigue siendo información biométrica aunque no sea una
-foto directamente legible.
+Las fotografías, nombres, videos y embeddings son datos sensibles. Para una
+presentación responsable ante una institución pública:
 
-- Obtén consentimiento informado antes del registro.
-- Señaliza cualquier cámara que realice identificación.
-- Usa mínimo privilegio para cuentas RTSP.
-- Cifra el disco y limita quién puede acceder a `data/`.
-- Define cuánto tiempo conservar fotografías y grabaciones.
-- Mantén revisión humana para decisiones relevantes.
-- No uses reconocimiento facial como único factor de control de acceso.
-- Evalúa falsos positivos con las personas y cámaras reales.
-
-<details>
-<summary><samp>[ LORE INDEX / diccionario de campo ]</samp></summary>
-
-| término | significado civil |
-| --- | --- |
-| **edge node** | computadora que procesa el video localmente |
-| **RTSP uplink** | enlace de red con una cámara IP |
-| **biometric vault** | SQLite que conserva los embeddings |
-| **vector handshake** | comparación por similitud coseno |
-| **unknown rejection** | rechazar una cara que no supera el umbral |
-| **temporal lock** | sostener una identidad durante cuadros coherentes |
-| **cold snapshot** | respaldo antes de una operación riesgosa |
-| **purge protocol** | eliminación confirmada de la base activa |
-| **recovered footage** | video analizado después de grabarse |
-| **air-gapped** | operación sin Internet tras descargar los modelos |
-
-</details>
+- Obtén consentimiento antes de registrar a cada participante.
+- Señaliza las cámaras que realizan identificación.
+- Usa cuentas RTSP de solo lectura.
+- Cifra el disco y restringe el acceso a `data/`.
+- Define tiempos de conservación y eliminación.
+- Mantén revisión humana en cualquier decisión relevante.
+- No uses reconocimiento facial como único control de acceso.
+- Evalúa falsos positivos por cámara y condición de iluminación.
+- Documenta quién puede crear, importar, respaldar o eliminar la base.
 
 <br />
 
-### 07 / mapa del artefacto
+## 07 / Arquitectura
 
 ```mermaid
 flowchart LR
     A[Webcam / RTSP / Video] --> B[CLAHE + Upscale]
     B --> C[YuNet Detector]
     C --> D[SFace / 128D]
-    D --> E[(SQLite Vault)]
-    E --> F{Cosine Threshold}
-    F -->|match| G[Known Identity]
-    F -->|reject| H[UNKNOWN]
-    G --> I[Overlay + MP4]
+    D --> E[(SQLite local)]
+    E --> F{Umbral coseno}
+    F -->|coincide| G[Identidad conocida]
+    F -->|rechaza| H[Desconocido]
+    G --> I[Vista + MP4]
     H --> I
 ```
 
 ```text
 src/faceguard/     motor, interfaz, calidad, SQLite y CLI
 tests/             pruebas unitarias sin cámara
-assets/            artefactos visuales del expediente
+assets/            identidad visual del proyecto
 models/            modelos ONNX ignorados por Git
-data/              vault, fotos y grabaciones ignoradas por Git
+data/              base, fotos y grabaciones ignoradas por Git
 ```
 
-#### Pruebas
+### Pruebas
 
 ```powershell
 pip install -r requirements-dev.txt
@@ -263,8 +251,6 @@ pytest -q
 <br />
 
 <p align="center">
-  <a href="https://github.com/alejondr3"><img src="https://raw.githubusercontent.com/alejondr3/alejondr3/main/assets/animated-v4/footer.gif" width="100%" alt="Fin de transmisión. La sesión nunca se cerró. STILL COMPILING." /></a>
+  <strong>Verde por nuestra tierra. Blanco por nuestra gente. Datos bajo nuestro control.</strong><br />
+  <samp>FaceGuard Santa Cruz // hecho con código, cuidado y orgullo cruceño</samp>
 </p>
-
-<p align="center"><samp>FRG-05 // no cloud saw the face // end of recovered file</samp></p>
-

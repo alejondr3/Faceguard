@@ -1,16 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="300" viewBox="0 0 1200 300" role="img" aria-labelledby="title desc">
-  <title id="title">Registro nocturno animado de FaceGuard</title><desc id="desc">Terminal monocromática que muestra el arranque del sistema</desc>
-  <defs><pattern id="scan" width="3" height="3" patternUnits="userSpaceOnUse"><rect width="1200" height="1" fill="#fff" opacity=".035"/></pattern></defs>
-  <rect width="1200" height="300" fill="#050505"/><rect width="1200" height="300" fill="url(#scan)"/><rect x="1" y="1" width="1198" height="298" fill="none" stroke="#555"/><path d="M1 38h1198" stroke="#444"/>
-  <text x="22" y="25" fill="#777" font-family="Consolas,monospace" font-size="13">● ● ●</text><text x="600" y="25" text-anchor="middle" fill="#666" font-family="Consolas,monospace" font-size="13">NIGHT OPERATOR / SESSION 005 / 03:17</text>
+  <title id="title">Nodo cruceño de FaceGuard en línea</title><desc id="desc">Terminal verde y blanca animada con el flujo del reconocimiento facial</desc>
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#003d20"/><stop offset="1" stop-color="#006d39"/></linearGradient><pattern id="scan" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="1200" height="1" fill="#fff" opacity=".035"/></pattern></defs>
+  <rect width="1200" height="300" rx="14" fill="url(#bg)"/><rect width="1200" height="300" rx="14" fill="url(#scan)"/><path d="M1 40h1198" stroke="#fff" stroke-opacity=".28"/>
+  <circle cx="25" cy="21" r="6" fill="#fff" opacity=".45"/><circle cx="47" cy="21" r="6" fill="#fff" opacity=".7"/><circle cx="69" cy="21" r="6" fill="#fff"/>
+  <text x="600" y="27" text-anchor="middle" fill="#c9ffe0" font-family="Consolas,monospace" font-size="13">NODO CRUCEÑO 001 // PROCESAMIENTO LOCAL // EN LÍNEA</text>
   <g font-family="Consolas, Menlo, monospace" font-size="17">
-    <text x="24" y="72" fill="#eee">03:17  conectando ojos que no duermen...</text>
-    <g opacity="0"><animate attributeName="opacity" values="0;0;1;1" keyTimes="0;.14;.19;1" dur="6s" repeatCount="indefinite"/><text x="24" y="112" fill="#aaa">03:18  YuNet encontró un rostro donde antes había ruido.</text></g>
-    <g opacity="0"><animate attributeName="opacity" values="0;0;1;1" keyTimes="0;.31;.36;1" dur="6s" repeatCount="indefinite"/><text x="24" y="152" fill="#aaa">03:19  SFace convirtió una mirada en 128 números.</text></g>
-    <g opacity="0"><animate attributeName="opacity" values="0;0;1;1" keyTimes="0;.48;.53;1" dur="6s" repeatCount="indefinite"/><text x="24" y="192" fill="#aaa">03:20  SQLite recordó lo que la cámara casi olvidó.</text></g>
-    <g opacity="0"><animate attributeName="opacity" values="0;0;1;1" keyTimes="0;.65;.70;1" dur="6s" repeatCount="indefinite"/><text x="24" y="232" fill="#f4f4f4">03:21  MATCH / la sesión reconoce tu nombre.</text></g>
-    <g opacity="0"><animate attributeName="opacity" values="0;0;1;1" keyTimes="0;.82;.87;1" dur="6s" repeatCount="indefinite"/><text x="24" y="272" fill="#777">--:--  la cámara sigue abierta. la nube nunca estuvo aquí.</text></g>
-    <rect x="1042" y="57" width="10" height="19" fill="#eee"><animate attributeName="opacity" values="1;0;1" dur=".8s" repeatCount="indefinite"/></rect>
+    <text x="25" y="76" fill="#fff">08:00  levantando el sistema, de una puej...</text>
+    <g opacity="0"><animate attributeName="opacity" values="0;0;1;1" keyTimes="0;.15;.20;1" dur="6s" repeatCount="indefinite"/><text x="25" y="116" fill="#c9ffe0">08:01  YuNet detectó el rostro hasta con cámara mañosa.</text></g>
+    <g opacity="0"><animate attributeName="opacity" values="0;0;1;1" keyTimes="0;.33;.38;1" dur="6s" repeatCount="indefinite"/><text x="25" y="156" fill="#c9ffe0">08:02  SFace armó el vector sin mandar nada a la nube.</text></g>
+    <g opacity="0"><animate attributeName="opacity" values="0;0;1;1" keyTimes="0;.51;.56;1" dur="6s" repeatCount="indefinite"/><text x="25" y="196" fill="#c9ffe0">08:03  SQLite encontró el registro al toque.</text></g>
+    <g opacity="0"><animate attributeName="opacity" values="0;0;1;1" keyTimes="0;.69;.74;1" dur="6s" repeatCount="indefinite"/><text x="25" y="236" fill="#fff">08:04  MATCH // quedó joya, sin vueltas y en local.</text></g>
+    <g opacity="0"><animate attributeName="opacity" values="0;0;1;1" keyTimes="0;.84;.89;1" dur="6s" repeatCount="indefinite"/><text x="25" y="276" fill="#9fe7bd">--:--  cuidando la información pa' no hacer macanas.</text></g>
+    <rect x="1070" y="59" width="10" height="20" fill="#fff"><animate attributeName="opacity" values="1;0;1" dur=".8s" repeatCount="indefinite"/></rect>
   </g>
 </svg>
-
