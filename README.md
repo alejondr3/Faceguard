@@ -46,6 +46,19 @@ faceguard download-models
 Los dos modelos ONNX se descargan del repositorio oficial de OpenCV Zoo. No se
 incluyen en Git por su tamaño.
 
+## Interfaz gráfica para Windows
+
+No es necesario usar una consola. Después de descargar o descomprimir el
+repositorio:
+
+1. Haz doble clic en `instalar.bat` y espera a que termine.
+2. Haz doble clic en `iniciar.bat` cada vez que quieras abrir el programa.
+3. Escribe el nombre, selecciona la cámara y pulsa **Registrar persona**.
+4. Pulsa **Iniciar reconocimiento** para comenzar la demostración.
+
+La ventana muestra la cámara en vivo, el avance de las fotografías y las
+personas registradas. La primera instalación necesita conexión a Internet.
+
 ## Uso rápido
 
 Registra una persona con 20 vistas tomadas desde la cámara predeterminada:
