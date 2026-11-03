@@ -15,7 +15,7 @@ from .cli import camera_source, save_face_photo
 from .config import Settings
 from .database import FaceDatabase
 from .models import FaceEngine, crop_face
-from .quality import enhance_frame, face_quality
+from .quality import enhance_details, enhance_frame, face_quality
 
 
 class FaceGuardApp:
@@ -32,6 +32,7 @@ class FaceGuardApp:
         self.collected = 0
         self.last_capture = 0.0
         self.cached_labels: list[tuple[str | None, float]] = []
+        self.recognition_memory: list[tuple[str | None, float, int]] = []
         self.video_writer: cv2.VideoWriter | None = None
         self.recording_path: Path | None = None
         self.source_is_file = False
@@ -109,6 +110,25 @@ class FaceGuardApp:
             text="Grabar reconocimiento en video",
             variable=self.record_video,
         ).pack(anchor="w", pady=(0, 12))
+        self.low_quality_mode = tk.BooleanVar(value=True)
+        ttk.Checkbutton(
+            controls,
+            text="Modo cámara de baja calidad",
+            variable=self.low_quality_mode,
+        ).pack(anchor="w", pady=(0, 8))
+        threshold_row = ttk.Frame(controls)
+        threshold_row.pack(fill="x", pady=(0, 12))
+        ttk.Label(threshold_row, text="Umbral de coincidencia").pack(side="left")
+        self.match_threshold = tk.DoubleVar(value=self.settings.match_threshold)
+        ttk.Spinbox(
+            threshold_row,
+            from_=0.30,
+            to=0.60,
+            increment=0.01,
+            textvariable=self.match_threshold,
+            width=6,
+            format="%.2f",
+        ).pack(side="right")
 
         self.enroll_button = ttk.Button(
             controls, text="📷  Registrar persona", style="Action.TButton", command=self.start_enrollment
@@ -123,23 +143,26 @@ class FaceGuardApp:
         )
         self.stop_button.pack(fill="x", pady=5)
 
-        ttk.Separator(controls).pack(fill="x", pady=20)
+        ttk.Separator(controls).pack(fill="x", pady=12)
         ttk.Label(controls, text="Personas registradas", font=("Segoe UI", 12, "bold")).pack(
             anchor="w", pady=(0, 7)
         )
         self.people = tk.StringVar(value="Todavía no hay registros")
         ttk.Label(controls, textvariable=self.people, wraplength=260, justify="left").pack(anchor="w")
-        ttk.Button(controls, text="Actualizar lista", command=self.refresh_people).pack(
-            fill="x", pady=(10, 0)
+        data_actions = ttk.Frame(controls)
+        data_actions.pack(fill="x", pady=(8, 0))
+        data_actions.columnconfigure((0, 1), weight=1)
+        ttk.Button(data_actions, text="Actualizar", command=self.refresh_people).grid(
+            row=0, column=0, sticky="ew", padx=(0, 3), pady=3
         )
-        ttk.Button(controls, text="📥  Importar base SQLite", command=self.import_database).pack(
-            fill="x", pady=(8, 0)
+        ttk.Button(data_actions, text="📥 Importar", command=self.import_database).grid(
+            row=0, column=1, sticky="ew", padx=(3, 0), pady=3
         )
-        ttk.Button(controls, text="💾  Crear respaldo", command=self.create_backup).pack(
-            fill="x", pady=(8, 0)
+        ttk.Button(data_actions, text="💾 Respaldo", command=self.create_backup).grid(
+            row=1, column=0, sticky="ew", padx=(0, 3), pady=3
         )
-        ttk.Button(controls, text="🗑  Eliminar base de datos", command=self.delete_database).pack(
-            fill="x", pady=(8, 0)
+        ttk.Button(data_actions, text="🗑 Eliminar", command=self.delete_database).grid(
+            row=1, column=1, sticky="ew", padx=(3, 0), pady=3
         )
         self.refresh_people()
 
@@ -197,6 +220,7 @@ class FaceGuardApp:
         loop_id = self.loop_id
         self.frame_number = 0
         self.cached_labels = []
+        self.recognition_memory = []
         self.root.after(1, lambda: self._tick(loop_id))
         return True
 
@@ -250,7 +274,8 @@ class FaceGuardApp:
                 return
             self.root.after(30, lambda: self._tick(loop_id))
             return
-        prepared = enhance_frame(frame)
+        target_width = 1280 if self.low_quality_mode.get() else 960
+        prepared = enhance_frame(frame, target_width=target_width)
         faces = self.engine.detect(prepared)
 
         if self.mode == "enroll":
@@ -276,9 +301,15 @@ class FaceGuardApp:
             quality = face_quality(crop_face(frame, face))
             message = f"Calidad {quality:.2f} · Fotos {self.collected}/{target}"
             now = time.monotonic()
-            if quality >= 0.35 and now - self.last_capture >= 0.35:
+            minimum_quality = 0.25 if self.low_quality_mode.get() else 0.35
+            if quality >= minimum_quality and now - self.last_capture >= 0.35:
+                embedding_frame = (
+                    enhance_details(frame) if self.low_quality_mode.get() else frame
+                )
                 self.database.add_embedding(
-                    self.name.get().strip(), self.engine.embedding(frame, face), quality
+                    self.name.get().strip(),
+                    self.engine.embedding(embedding_frame, face),
+                    quality,
                 )
                 save_face_photo(
                     frame, face, self.name.get().strip(), self.settings.photos_dir
@@ -298,16 +329,34 @@ class FaceGuardApp:
 
     def _process_recognition(self, frame, faces) -> None:
         if self.frame_number % 3 == 0:
-            self.cached_labels = []
-            for face in faces:
+            updated_memory: list[tuple[str | None, float, int]] = []
+            detailed = enhance_details(frame) if self.low_quality_mode.get() else None
+            threshold = float(self.match_threshold.get())
+            for index, face in enumerate(faces):
                 if min(face[2], face[3]) >= self.settings.min_face_size:
-                    self.cached_labels.append(
+                    candidates = [
                         self.database.best_match(
-                            self.engine.embedding(frame, face), self.settings.match_threshold
+                            self.engine.embedding(frame, face), threshold
                         )
-                    )
+                    ]
+                    if detailed is not None:
+                        candidates.append(
+                            self.database.best_match(
+                                self.engine.embedding(detailed, face), threshold
+                            )
+                        )
+                    name, score = max(candidates, key=lambda result: result[1])
                 else:
-                    self.cached_labels.append((None, 0.0))
+                    name, score = None, 0.0
+                if name is not None:
+                    updated_memory.append((name, score, 5))
+                elif index < len(self.recognition_memory) and self.recognition_memory[index][2] > 0:
+                    old_name, old_score, remaining = self.recognition_memory[index]
+                    updated_memory.append((old_name, old_score, remaining - 1))
+                else:
+                    updated_memory.append((None, score, 0))
+            self.recognition_memory = updated_memory
+            self.cached_labels = [(name, score) for name, score, _ttl in updated_memory]
 
         for index, face in enumerate(faces):
             name, score = (
