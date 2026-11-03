@@ -7,6 +7,10 @@
 [![SQLite](https://img.shields.io/badge/SQLite-Local-31c7ff?style=for-the-badge&logo=sqlite&logoColor=white)](https://sqlite.org/)
 [![License MIT](https://img.shields.io/badge/License-MIT-9b7bff?style=for-the-badge)](LICENSE)
 
+[![Tests](https://img.shields.io/github/actions/workflow/status/alejondr3/Reconocedor-de-caras/tests.yml?branch=main&style=flat-square&label=PIPELINE&logo=githubactions&logoColor=white)](https://github.com/alejondr3/Reconocedor-de-caras/actions)
+![Last commit](https://img.shields.io/github/last-commit/alejondr3/Reconocedor-de-caras?style=flat-square&label=LAST%20PATCH&color=00d9a3)
+![Repo size](https://img.shields.io/github/repo-size/alejondr3/Reconocedor-de-caras?style=flat-square&label=PAYLOAD&color=6f7dff)
+
 ### `> IDENTIFY // TRACK // RECORD // STAY LOCAL`
 
 Reconocimiento facial en tiempo real para webcam, cámaras RTSP y archivos de
@@ -36,6 +40,39 @@ de servicios biométricos externos.
 > El sistema no entrena una red desde cero. Registra varias vistas de cada
 > persona y las compara usando modelos preentrenados; esto es más práctico y
 > preciso cuando no se dispone de miles de imágenes etiquetadas.
+
+<div align="center">
+
+![Secuencia de arranque de FaceGuard](assets/live-terminal.svg)
+
+`LARP MODE: ENABLED` · `CLOUD EXFIL: 0` · `EDGE NODE: ARMED`
+
+</div>
+
+<details>
+<summary><strong>▸ OPERATOR BRIEF // abrir panel táctico</strong></summary>
+
+### Misión
+
+Ingerir video desde una fuente local, detectar rostros, extraer vectores
+biométricos y resolver identidades conocidas sin sacar el material del nodo.
+
+### Threat model
+
+- **Activo sensible:** fotografías, grabaciones, nombres y embeddings.
+- **Superficie de ataque:** credenciales RTSP, archivos SQLite y acceso físico.
+- **Postura:** procesamiento en el edge, mínimo privilegio y retención limitada.
+- **Fail closed:** una similitud insuficiente termina como `Desconocido`, no como
+  una identidad forzada.
+
+### Reglas del operador
+
+1. Nunca commitear el vault biométrico ni credenciales del uplink RTSP.
+2. Crear un snapshot antes de importar o purgar la base.
+3. Calibrar contra impostores, no solamente contra rostros conocidos.
+4. Mantener supervisión humana en cualquier decisión relevante.
+
+</details>
 
 ## ◈ Cámaras de baja calidad
 
@@ -307,12 +344,43 @@ para las poblaciones y condiciones reales de uso.
 
 ## 🧬 Arquitectura del repositorio
 
+```mermaid
+flowchart LR
+    A[Webcam / RTSP / Video] --> B[CLAHE + Upscale]
+    B --> C[YuNet Detector]
+    C --> D[SFace Embedding]
+    D --> E[(SQLite Vector Vault)]
+    E --> F{Cosine Threshold}
+    F -->|match| G[Identidad conocida]
+    F -->|reject| H[Desconocido]
+    G --> I[Overlay + MP4]
+    H --> I
+```
+
 ```text
 src/faceguard/     motor, base SQLite, calidad, CLI y voto temporal
 tests/             pruebas unitarias sin cámara
 models/            modelos descargados (ignorados por Git)
 data/              base local (ignorada por Git)
 ```
+
+<details>
+<summary><strong>▸ DICCIONARIO LARPER // jerga del operador</strong></summary>
+
+| Modismo | Traducción técnica |
+| --- | --- |
+| **Edge node** | La computadora que procesa el video localmente |
+| **RTSP uplink** | Conexión de red con la cámara IP |
+| **Biometric vault** | Archivo SQLite que contiene los embeddings |
+| **Vector handshake** | Comparación por similitud coseno entre embeddings |
+| **Unknown-class rejection** | Rechazar una cara cuando no supera el umbral |
+| **Temporal lock** | Mantener una identidad durante varios cuadros coherentes |
+| **Cold snapshot** | Respaldo de la base antes de una operación riesgosa |
+| **Air-gapped capable** | Puede funcionar sin Internet después de descargar modelos |
+| **Zero cloud telemetry** | El programa no envía rostros a un servicio biométrico cloud |
+| **Purge protocol** | Eliminación confirmada de la base SQLite activa |
+
+</details>
 
 ---
 
