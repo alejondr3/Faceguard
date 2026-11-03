@@ -49,7 +49,15 @@
   </g>
 
   <circle cx="1138" cy="54" r="5" fill="#62ff8f" filter="url(#glow)"/>
+  <circle cx="1138" cy="54" r="11" fill="none" stroke="#62ff8f" opacity=".6">
+    <animate attributeName="r" values="6;18;6" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values=".8;0;.8" dur="2s" repeatCount="indefinite"/>
+  </circle>
   <text x="1100" y="91" fill="#62ff8f" font-family="Consolas, monospace" font-size="13">SECURE</text>
+  <rect x="0" y="0" width="1200" height="3" fill="#7fffe7" opacity=".28">
+    <animate attributeName="y" values="8;350;8" dur="5s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0;.35;0" dur="5s" repeatCount="indefinite"/>
+  </rect>
   <rect x="1" y="1" width="1198" height="358" rx="23" fill="none" stroke="#44ffe1" stroke-opacity=".28" stroke-width="2"/>
 </svg>
 
