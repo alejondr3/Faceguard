@@ -13,7 +13,7 @@ class Settings:
     photos_dir: Path = ROOT / "data" / "photos"
     recordings_dir: Path = ROOT / "data" / "recordings"
     models_dir: Path = ROOT / "models"
-    match_threshold: float = 0.40
+    match_threshold: float = 0.36
     detector_score_threshold: float = 0.75
     min_face_size: int = 55
     vote_window: int = 7
