@@ -54,6 +54,11 @@ Registra una persona con 20 vistas tomadas desde la cámara predeterminada:
 faceguard enroll --name "Ana"
 ```
 
+Cada muestra aceptada también se guarda como fotografía recortada en
+`data/photos/Ana/`. Así queda un dataset visible para la demostración y para
+evaluaciones posteriores. La carpeta está excluida de Git porque contiene datos
+biométricos reales.
+
 Es importante variar suavemente la posición: frente, izquierda, derecha, un
 poco arriba y abajo; repetir con la misma iluminación y distancia de la cámara
 que se utilizarán en producción. Para una cámara mala conviene registrar 30–40
@@ -67,6 +72,13 @@ También se pueden usar fotos existentes:
 
 ```bash
 faceguard enroll --name "Ana" --images "fotos/ana/*.jpg"
+```
+
+Para elegir otra ubicación para el dataset o registrar únicamente embeddings:
+
+```bash
+faceguard enroll --name "Ana" --photos-dir D:/dataset/rostros
+faceguard enroll --name "Ana" --no-save-photos
 ```
 
 Inicia el reconocimiento (pulsa `Q` o `Esc` para salir):
@@ -106,9 +118,9 @@ las cámaras reales y con personas que no estén registradas.
 
 ## Base de datos
 
-Por defecto se crea `data/faces.db`. Solo contiene nombres, embeddings
-biométricos y puntajes de calidad; no guarda fotos. El archivo está ignorado por
-Git. Comandos de administración:
+Por defecto se crea `data/faces.db`, que contiene nombres, embeddings biométricos
+y puntajes de calidad. Las fotografías quedan separadas en `data/photos/`.
+Ambas ubicaciones están ignoradas por Git. Comandos de administración:
 
 ```bash
 faceguard list
@@ -135,7 +147,9 @@ pytest -q
 
 Úsalo únicamente con consentimiento informado y una finalidad legítima. Avisa
 cuando una cámara realiza identificación, limita quién accede a la base y
-permite que una persona solicite la eliminación de sus datos. Revisa las leyes
+permite que una persona solicite la eliminación de sus datos. En una hackatón,
+coloca un aviso visible y obtén permiso antes de fotografiar a cada participante.
+No publiques el dataset ni lo reutilices para otra finalidad. Revisa las leyes
 aplicables antes de desplegarlo en espacios públicos, trabajo, escuelas o para
 tomar decisiones relevantes. Evalúa precisión y falsos positivos por separado
 para las poblaciones y condiciones reales de uso.
