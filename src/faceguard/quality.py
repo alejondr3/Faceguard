@@ -16,6 +16,12 @@ def enhance_frame(frame: np.ndarray, target_width: int = 960) -> np.ndarray:
     return cv2.cvtColor(cv2.merge((y, cr, cb)), cv2.COLOR_YCrCb2BGR)
 
 
+def enhance_details(frame: np.ndarray) -> np.ndarray:
+    """Realce moderado para obtener otra lectura de caras blandas o comprimidas."""
+    blurred = cv2.GaussianBlur(frame, (0, 0), 1.1)
+    return cv2.addWeighted(frame, 1.65, blurred, -0.65, 0)
+
+
 def face_quality(face_crop: np.ndarray) -> float:
     """Puntaje 0..1 que combina tamaño, nitidez, luz y contraste."""
     if face_crop.size == 0:
