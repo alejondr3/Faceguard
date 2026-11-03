@@ -56,6 +56,10 @@ repositorio:
 3. Escribe el nombre, selecciona la cámara y pulsa **Registrar persona**.
 4. Pulsa **Iniciar reconocimiento** para comenzar la demostración.
 
+El botón **Crear respaldo** genera un ZIP con una copia consistente de
+`faces.db` y todas las fotografías de `data/photos/`. El usuario elige dónde
+guardarlo y no es necesario cerrar la aplicación.
+
 La ventana muestra la cámara en vivo, el avance de las fotografías y las
 personas registradas. La primera instalación necesita conexión a Internet.
 
