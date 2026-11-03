@@ -19,42 +19,47 @@ Esto ayuda, pero ninguna técnica recupera detalle que la cámara nunca capturó
 Una cara de menos de ~55 píxeles, desenfoque fuerte, contraluz u oclusión puede
 seguir sin ser reconocible.
 
-## Instalación
+## Tutorial de instalación en Windows (sin consola)
 
-Requiere Python 3.10 o superior.
+### Requisitos
 
-```bash
-python -m venv .venv
-```
+- Windows 10 u 11 de 64 bits.
+- Python 3.10 o superior instalado desde
+  [python.org](https://www.python.org/downloads/). Durante la instalación marca
+  **Add Python to PATH**.
+- Conexión a Internet únicamente durante la primera instalación.
+- Una webcam, un video o una cámara IP con RTSP.
 
-En Windows:
+### Paso 1: descargar
 
-```powershell
-.venv\Scripts\Activate.ps1
-pip install -e .
-faceguard download-models
-```
+1. En GitHub pulsa **Code** y después **Download ZIP**.
+2. Descomprime el ZIP en una carpeta normal, por ejemplo el Escritorio.
+3. No ejecutes el programa directamente dentro del ZIP.
 
-En Linux/macOS:
+### Paso 2: instalar
 
-```bash
-source .venv/bin/activate
-pip install -e .
-faceguard download-models
-```
+1. Abre la carpeta descomprimida.
+2. Haz doble clic en `instalar.bat`.
+3. Espera el mensaje **INSTALACIÓN COMPLETADA**. La descarga puede tardar varios
+   minutos porque OpenCV y el modelo SFace son grandes.
+4. Si Windows muestra una advertencia, verifica que el archivo pertenece a este
+   repositorio antes de permitir su ejecución.
 
-Los dos modelos ONNX se descargan del repositorio oficial de OpenCV Zoo. No se
-incluyen en Git por su tamaño.
+### Paso 3: abrir y registrar
 
-## Interfaz gráfica para Windows
+1. Haz doble clic en `iniciar.bat`.
+2. Escribe el nombre de la persona.
+3. Deja `0` como cámara para usar la webcam principal.
+4. Elige entre 20 y 40 fotografías y pulsa **Registrar persona**.
+5. Mira al frente y gira lentamente la cabeza. Usa condiciones parecidas a las
+   de la cámara final.
+6. Repite el registro para cada participante autorizado.
 
-No es necesario usar una consola. Después de descargar o descomprimir el
-repositorio:
+### Paso 4: reconocer
 
-1. Haz doble clic en `instalar.bat` y espera a que termine.
-2. Haz doble clic en `iniciar.bat` cada vez que quieras abrir el programa.
-3. Escribe el nombre, selecciona la cámara y pulsa **Registrar persona**.
-4. Pulsa **Iniciar reconocimiento** para comenzar la demostración.
+Pulsa **Iniciar reconocimiento**. Un rectángulo verde muestra una persona
+reconocida y uno rojo indica **Desconocido**. Pulsa **Detener cámara** antes de
+cerrar o cambiar de fuente.
 
 El botón **Crear respaldo** genera un ZIP con una copia consistente de
 `faces.db` y todas las fotografías de `data/photos/`. El usuario elige dónde
@@ -67,6 +72,54 @@ crear un respaldo antes de usar esta opción.
 
 La ventana muestra la cámara en vivo, el avance de las fotografías y las
 personas registradas. La primera instalación necesita conexión a Internet.
+
+## Cámara de seguridad en tiempo real y grabación
+
+La cámara debe ofrecer un stream **RTSP**. Muchas cámaras IP y DVR/NVR lo tienen,
+pero algunas cámaras domésticas basadas únicamente en nube no lo permiten.
+
+1. Conecta la computadora y la cámara a la misma red.
+2. En la configuración de la cámara activa RTSP y crea un usuario exclusivo de
+   solo lectura.
+3. Busca la ruta RTSP en el manual del fabricante. Normalmente tiene esta forma:
+
+   ```text
+   rtsp://usuario:contraseña@192.168.1.50:554/ruta-del-stream
+   ```
+
+4. Prueba la URL en VLC con **Medio → Abrir ubicación de red**. Si VLC no puede
+   verla, el reconocedor tampoco podrá hacerlo.
+5. Abre `iniciar.bat`, pega la URL completa en **Cámara (0 o URL RTSP)** y activa
+   **Grabar reconocimiento en video**.
+6. Pulsa **Iniciar reconocimiento**. Al detener la cámara se cerrará el archivo
+   correctamente.
+
+Los videos con rectángulos y nombres quedan en:
+
+```text
+data/recordings/reconocimiento-AAAAmmdd-HHMMSS.mp4
+```
+
+Para cámaras de baja calidad usa el stream de mayor resolución durante el
+registro. Si el equipo no logra procesarlo en tiempo real, prueba el substream
+de la cámara. La cara debería medir al menos unos 55 píxeles. Evita contraluz,
+ángulos extremos y movimiento rápido.
+
+No escribas la URL RTSP en código, capturas o commits: normalmente contiene la
+contraseña. Las grabaciones están excluidas de Git. Para operación continua se
+recomienda limitar el espacio de disco y definir cuánto tiempo se conservarán.
+
+## Instalación manual (usuarios técnicos)
+
+Requiere Python 3.10 o superior:
+
+```powershell
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+pip install -e .
+faceguard download-models
+faceguard-gui
+```
 
 ## Uso rápido
 
