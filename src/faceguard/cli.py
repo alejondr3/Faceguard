@@ -209,7 +209,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     recognize_parser = sub.add_parser("recognize", help="Reconocer en tiempo real")
     recognize_parser.add_argument("--camera", default="0", help="Índice, archivo o URL RTSP")
-    recognize_parser.add_argument("--threshold", type=float, default=0.40)
+    recognize_parser.add_argument("--threshold", type=float, default=0.36)
     recognize_parser.add_argument("--process-every", type=int, default=2)
     recognize_parser.add_argument("--database", type=Path)
 
