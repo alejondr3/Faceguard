@@ -34,6 +34,8 @@ class FaceGuardApp:
         self.cached_labels: list[tuple[str | None, float]] = []
         self.video_writer: cv2.VideoWriter | None = None
         self.recording_path: Path | None = None
+        self.source_is_file = False
+        self.frame_delay_ms = 15
         self.photo_image = None
 
         self.root.title("Reconocedor de caras")
@@ -95,9 +97,12 @@ class FaceGuardApp:
         )
         ttk.Label(
             controls,
-            text="Usa 0 para webcam o pega una URL RTSP para una cámara de seguridad.",
+            text="Usa 0 para webcam, pega una URL RTSP o selecciona un video.",
             wraplength=270,
         ).pack(anchor="w", pady=(0, 10))
+        ttk.Button(controls, text="📁  Elegir video", command=self.select_video).pack(
+            fill="x", pady=(0, 10)
+        )
         self.record_video = tk.BooleanVar(value=False)
         ttk.Checkbutton(
             controls,
@@ -168,7 +173,9 @@ class FaceGuardApp:
 
     def _open_camera(self) -> bool:
         self.stop_camera(clear_status=False)
-        source = camera_source(self.camera_number.get().strip() or "0")
+        raw_source = self.camera_number.get().strip() or "0"
+        source = camera_source(raw_source)
+        self.source_is_file = isinstance(source, str) and Path(source).is_file()
         self.camera = cv2.VideoCapture(source)
         self.camera.set(cv2.CAP_PROP_BUFFERSIZE, 1)
         if not self.camera.isOpened():
@@ -176,6 +183,12 @@ class FaceGuardApp:
             self.camera = None
             messagebox.showerror("Cámara", f"No se pudo abrir la cámara {source}.")
             return False
+        fps = self.camera.get(cv2.CAP_PROP_FPS)
+        self.frame_delay_ms = (
+            max(1, int(1000 / fps))
+            if self.source_is_file and fps and 1 <= fps <= 120
+            else 15
+        )
         self.running = True
         self.loop_id += 1
         loop_id = self.loop_id
@@ -183,6 +196,18 @@ class FaceGuardApp:
         self.cached_labels = []
         self.root.after(1, lambda: self._tick(loop_id))
         return True
+
+    def select_video(self) -> None:
+        selected = filedialog.askopenfilename(
+            title="Seleccionar video para analizar",
+            filetypes=[
+                ("Videos", "*.mp4 *.avi *.mov *.mkv *.m4v *.wmv"),
+                ("Todos los archivos", "*.*"),
+            ],
+        )
+        if selected:
+            self.camera_number.set(selected)
+            self.status.set(f"Video seleccionado: {Path(selected).name}")
 
     def start_enrollment(self) -> None:
         person = self.name.get().strip()
@@ -214,6 +239,12 @@ class FaceGuardApp:
             return
         ok, frame = self.camera.read()
         if not ok:
+            if self.source_is_file:
+                video_name = Path(self.camera_number.get()).name
+                self.stop_camera(clear_status=False)
+                self.status.set(f"Análisis terminado: {video_name}")
+                messagebox.showinfo("Video terminado", f"Terminó el análisis de {video_name}.")
+                return
             self.root.after(30, lambda: self._tick(loop_id))
             return
         prepared = enhance_frame(frame)
@@ -232,7 +263,7 @@ class FaceGuardApp:
         self.photo_image = ImageTk.PhotoImage(image=image)
         self.video.configure(image=self.photo_image, text="")
         self.frame_number += 1
-        self.root.after(15, lambda: self._tick(loop_id))
+        self.root.after(self.frame_delay_ms, lambda: self._tick(loop_id))
 
     def _process_enrollment(self, frame, faces) -> None:
         target = self.samples.get()
