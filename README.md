@@ -1,182 +1,210 @@
 <p align="center">
-  <img src="assets/puejface-banner-v2.svg" width="100%" alt="PuejFace Santa Cruz — tecnología que cuida nuestra tierra." />
+  <img src="assets/puejface-cover-v3.svg" width="100%" alt="PuejFace. Reconocimiento facial, al toque. Diseño verde bosque y marfil con identidad cruceña." />
 </p>
 
 <p align="center">
-  <samp>「 tecnología cruceña, datos en casa y reconocimiento al toque 」</samp>
+  <strong>Tecnología cruceña. Procesamiento local. Datos en casa.</strong><br />
+  Una herramienta de escritorio para registrar personas, reconocer rostros y analizar video.
 </p>
 
 <p align="center">
-  <a href="#el-proyecto">el proyecto</a> &nbsp;•&nbsp;
-  <a href="#instalacion">instalación</a> &nbsp;•&nbsp;
-  <a href="#camaras">cámaras</a> &nbsp;•&nbsp;
-  <a href="#base-de-datos">base de datos</a> &nbsp;•&nbsp;
-  <a href="#privacidad">privacidad</a>
+  <a href="#instalacion">Instalación</a> &nbsp; / &nbsp;
+  <a href="#primer-uso">Primer uso</a> &nbsp; / &nbsp;
+  <a href="#fuentes">Cámaras y videos</a> &nbsp; / &nbsp;
+  <a href="#datos">Datos y respaldos</a> &nbsp; / &nbsp;
+  <a href="#tecnico">Documentación técnica</a>
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/github/actions/workflow/status/alejondr3/PuejFace/tests.yml?branch=main&style=flat-square&label=COMPILACI%C3%93N&color=007A3D" alt="Estado de compilación" />
-  <img src="https://img.shields.io/github/last-commit/alejondr3/PuejFace?style=flat-square&label=%C3%9ALTIMA%20ACTUALIZACI%C3%93N&color=007A3D" alt="Última actualización" />
-  <img src="https://img.shields.io/badge/Python-3.10%2B-007A3D?style=flat-square&logo=python&logoColor=white" alt="Python 3.10 o superior" />
-  <img src="https://img.shields.io/badge/PROCESAMIENTO-LOCAL-007A3D?style=flat-square" alt="Procesamiento local" />
+  <a href="https://github.com/alejondr3/Faceguard/actions"><img src="https://img.shields.io/github/actions/workflow/status/alejondr3/Faceguard/tests.yml?branch=main&amp;style=flat-square&amp;label=tests&amp;color=08714c" alt="Estado de las pruebas" /></a>
+  <img src="https://img.shields.io/github/last-commit/alejondr3/Faceguard?style=flat-square&amp;label=actualizado&amp;color=08714c" alt="Última actualización" />
+  <img src="https://img.shields.io/badge/Python-3.10%2B-174c35?style=flat-square" alt="Python 3.10 o superior" />
+  <a href="LICENSE"><img src="https://img.shields.io/badge/licencia-MIT-174c35?style=flat-square" alt="Licencia MIT" /></a>
 </p>
-
-> [!IMPORTANT]
-> **Prototipo tecnológico para presentación.** Este repositorio no es un sitio
-> oficial, no usa el logotipo institucional y no implica aval formal del Gobierno
-> Autónomo Departamental de Santa Cruz. Cualquier despliegue institucional debe
-> pasar por revisión técnica, jurídica, de seguridad y de identidad corporativa.
 
 <br />
 
-<a id="el-proyecto"></a>
+<img src="assets/puejface-sources-v3.svg" width="100%" alt="Webcam: registro desde computadora. Cámara IP: stream RTSP. Video: análisis de archivos locales." />
 
-## 01 / El proyecto
+## Hecho para conectar, registrar y reconocer
 
-**PuejFace Santa Cruz** es un sistema local de reconocimiento facial para
-webcams, cámaras IP y videos existentes. Está pensado como una demostración de
-tecnología aplicada desde Santa Cruz, con énfasis en privacidad y funcionamiento
-con cámaras de calidad variable.
+**PuejFace** utiliza YuNet para detectar rostros y SFace para extraer embeddings.
+Las identidades se comparan con una base SQLite en tu computadora. El registro
+incorpora muestras a esa base usando modelos preentrenados.
 
-| componente | qué hace |
-| --- | --- |
-| `YuNet` | detecta una o varias caras en la imagen |
-| `SFace` | convierte cada rostro en un vector biométrico |
-| `SQLite` | guarda nombres y embeddings de manera local |
-| `RTSP` | conecta cámaras de seguridad en tiempo real |
-| `Low-quality mode` | mejora contraste, tamaño y estabilidad temporal |
-| `Recorder` | genera videos MP4 con nombres y rectángulos |
+<table>
+<tr>
+<td width="50%" valign="top">
 
-<p align="center">
-  <img src="assets/live-terminal.svg" width="100%" alt="Nodo cruceño de PuejFace funcionando en tiempo real." />
-</p>
+### 📷 Registro guiado
 
-<details>
-<summary><strong>🌴 Modo camba técnico — abrir glosario</strong></summary>
+Nombre, cámara y cantidad de fotos desde la interfaz. Los recortes aceptados se guardan como dataset local.
 
-| como lo decimos | qué significa técnicamente |
-| --- | --- |
-| **levantalo al toque** | iniciar la aplicación y cargar los modelos |
-| **de una, puej** | ejecutar el flujo sin pasos innecesarios |
-| **cámara mañosa** | fuente con baja resolución, ruido o compresión |
-| **sin hacer macanas** | validar antes de borrar, importar o desplegar |
-| **quedó joya** | reconocimiento estable después de calibrar |
-| **datos en casa** | procesamiento local sin API biométrica externa |
-| **no te aplazés con el umbral** | medir falsos positivos antes de bajarlo |
+</td>
+<td width="50%" valign="top">
 
-</details>
+### 🌿 Calidad variable
 
-<br />
+Contraste local, escalado y una segunda lectura realzada para trabajar con imágenes difíciles.
+
+</td>
+</tr>
+<tr>
+<td valign="top">
+
+### 🎞️ Video procesado
+
+Visualización con nombres y rectángulos, con opción de guardar una copia MP4 anotada.
+
+</td>
+<td valign="top">
+
+### 🗄️ SQLite integrada
+
+Importación compatible, respaldos y eliminación con confirmación desde la aplicación.
+
+</td>
+</tr>
+</table>
 
 <a id="instalacion"></a>
 
-## 02 / Instalación al toque
+## Arrancá en tres pasos
 
-### Windows — sin usar consola
+| 01 · Descargá | 02 · Instalá | 03 · Abrí |
+| :--- | :--- | :--- |
+| **Code → Download ZIP**, y descomprimí la carpeta. | Ejecutá **instalar.bat** y esperá el mensaje de finalización. | Doble clic en **iniciar.bat**. De una, puej. |
 
-1. Instala [Python 3.10 o superior](https://www.python.org/downloads/) y marca
-   **Add Python to PATH**.
-2. Pulsa **Code → Download ZIP** en GitHub.
-3. Descomprime el proyecto en una carpeta normal.
-4. Haz doble clic en `instalar.bat`.
-5. Espera hasta ver **INSTALACIÓN COMPLETADA**.
-6. Abre el sistema con `iniciar.bat`.
+Necesitás Windows, Python 3.10 o superior y conexión durante la primera instalación.
 
-La primera instalación descarga OpenCV y dos modelos ONNX. Después de eso puede
-funcionar sin Internet.
+<details>
+<summary><strong>Ver instalación paso a paso y soluciones frecuentes</strong></summary>
 
-### Registrar una persona
+1. Instalá [Python](https://www.python.org/downloads/) y marcá **Add Python to PATH**.
+2. Descargá el ZIP del repositorio y extraé su contenido en una carpeta normal.
+3. Abrí esa carpeta y ejecutá `instalar.bat`.
+4. Esperá **INSTALACIÓN COMPLETADA**. Se descargarán dependencias y modelos ONNX.
+5. Ejecutá `iniciar.bat` cada vez que quieras usar la aplicación.
 
-1. Escribe el nombre del participante autorizado.
-2. Deja `0` como cámara para usar la webcam principal.
-3. Mantén activo **Modo cámara de baja calidad**.
-4. Selecciona entre 30 y 60 fotografías.
-5. Pulsa **Registrar persona**.
-6. Mira al frente y gira lentamente la cabeza.
+**Si falta Python:** instalalo y volvé a ejecutar el instalador.  
+**Si la cámara no abre:** cerrá otras aplicaciones que la estén usando y probá los índices 0, 1 o 2.  
+**Si falla una descarga:** comprobá la conexión y repetí la instalación.  
+**Si actualizaste:** cerrá la aplicación y abrila otra vez. Ejecutá el instalador si cambiaron las dependencias.
 
-> **Consejo de la casa:** registrá a la persona con la misma cámara, distancia e
-> iluminación que tendrá el sistema final. Así no hay sorpresas después, puej.
+</details>
 
-<br />
+<a id="primer-uso"></a>
 
-<a id="camaras"></a>
+## Tu primer reconocimiento
 
-## 03 / Cámaras y videos
+1. **Registrá:** escribí un nombre, dejá la cámara en `0` y elegí 30–60 fotos.
+2. **Capturá:** pulsá **Registrar persona** y variá suavemente el ángulo de la cabeza.
+3. **Reconocé:** pulsá **Iniciar reconocimiento**.
+4. **Guardá:** activá la opción de grabación antes de iniciar si querés exportar el resultado.
 
-### Webcam
+> Registrá con iluminación, distancia y cámara similares a las del uso final.
 
-Usa `0` para la cámara principal. Si tienes varias, prueba `1`, `2` o `3`.
+<a id="fuentes"></a>
 
-### Cámara de seguridad mediante RTSP
+## Elegí tu fuente
 
-La cámara debe ofrecer un stream RTSP. Actívalo en su configuración y crea un
-usuario exclusivo de solo lectura.
+<details open>
+<summary><strong>Webcam · la conexión más rápida</strong></summary>
+
+Escribí `0` en el campo de cámara. Si tenés varias, probá `1` o `2`.
+Después pulsá **Iniciar reconocimiento**.
+
+</details>
+
+<details>
+<summary><strong>Cámara IP · reconocimiento por RTSP</strong></summary>
+
+1. Conectá cámara y computadora a la misma red.
+2. Activá RTSP en la cámara y obtené la ruta del fabricante.
+3. Probá esa dirección en VLC.
+4. Pegala en el campo **Cámara (0 o URL RTSP)**.
+5. Elegí si querés grabar y pulsá **Iniciar reconocimiento**.
+
+Ejemplo de formato:
 
 ```text
 rtsp://usuario:contraseña@192.168.1.50:554/ruta-del-stream
 ```
 
-1. Conecta la computadora y la cámara a la misma red.
-2. Prueba primero la URL en VLC.
-3. Pégala en **Cámara (0 o URL RTSP)**.
-4. Marca **Grabar reconocimiento en video** si necesitas una copia procesada.
-5. Pulsa **Iniciar reconocimiento**.
+La dirección puede contener credenciales: evitá publicarla en capturas o commits.
 
-Las grabaciones quedan en `data/recordings/`. No publiques la URL RTSP porque
-normalmente contiene credenciales reales.
-
-### Analizar un video existente
-
-1. Pulsa **Elegir video**.
-2. Selecciona MP4, AVI, MOV, MKV, M4V o WMV.
-3. Activa la grabación si quieres conservar el resultado anotado.
-4. Pulsa **Iniciar reconocimiento**.
-
-El original nunca se modifica. El análisis termina automáticamente al llegar al
-último cuadro.
-
-<br />
-
-## 04 / Protocolo para cámaras mañosas
-
-El modo de baja calidad amplía el cuadro, aplica CLAHE, crea una segunda lectura
-con realce de detalle y conserva temporalmente una identidad durante cuadros
-borrosos.
-
-1. Registra 40–60 vistas desde la cámara real.
-2. Empieza con umbral `0.36`.
-3. Si rechaza conocidos, prueba `0.34`.
-4. Si confunde personas, sube a `0.40` o `0.44`.
-5. No bajes de `0.30`.
-6. Prueba también con personas no registradas.
-7. Procura que la cara mida al menos unos 55 píxeles.
-
-> **Desconocido también es una respuesta válida.** Forzar una identidad cuando
-> no hay detalle suficiente aumenta los falsos positivos. Ni el mejor código
-> puede inventar los píxeles que la cámara nunca capturó.
-
-<br />
-
-<a id="base-de-datos"></a>
-
-## 05 / Base de datos — todo en casa
-
-La memoria activa vive en `data/faces.db`. Las fotografías están en
-`data/photos/` y las grabaciones en `data/recordings/`. Estas rutas están
-excluidas de Git.
-
-| opción | resultado |
-| --- | --- |
-| **Importar base SQLite** | valida y combina personas y embeddings |
-| **Crear respaldo** | genera un ZIP con la base y las fotografías |
-| **Eliminar base de datos** | pide dos confirmaciones y crea una base vacía |
-| **Actualizar lista** | vuelve a leer las personas registradas |
-
-Antes de importar se crea automáticamente un respaldo en `data/backups/`. Los
-registros repetidos se omiten. Sin vueltas y sin hacer macanas.
+</details>
 
 <details>
-<summary><strong>⌨️ Acceso técnico por consola</strong></summary>
+<summary><strong>Archivo de video · analizá una grabación</strong></summary>
+
+Pulsá **Elegir video**, seleccioná un MP4, AVI, MOV, MKV, M4V o WMV y luego
+**Iniciar reconocimiento**. El archivo original permanece intacto.
+
+Si activaste la grabación, la copia anotada se guarda en `data/recordings/`.
+El análisis se detiene al terminar el archivo. Las personas deben estar registradas previamente.
+
+</details>
+
+## Cuando la cámara sale mañosa
+
+El modo de baja calidad aplica escalado, CLAHE y realce de detalle.
+Su eficacia depende del detalle real del rostro y debe evaluarse con tu cámara.
+
+| Situación | Qué probar |
+| :--- | :--- |
+| Rechaza a alguien registrado | Agregá muestras desde la cámara final y compará resultados. |
+| Confunde identidades | Subí el umbral y evaluá con personas ajenas a la base. |
+| Imagen oscura o comprimida | Activá el modo de baja calidad y mejorá la iluminación. |
+| Rostro muy pequeño | Acercá la cámara o utilizá un stream con mayor resolución. |
+| Procesamiento lento | Reducí la resolución de entrada y comprobá la carga del equipo. |
+
+El valor inicial es `0.36`. Cualquier ajuste debe medirse con coincidencias
+correctas y falsos positivos. El realce no recupera detalle que nunca fue capturado.
+
+<a id="datos"></a>
+
+## Datos bajo control
+
+| Botón | Acción |
+| :--- | :--- |
+| **Importar** | Combina bases compatibles y omite embeddings idénticos. |
+| **Respaldo** | Exporta un ZIP con SQLite y fotografías. |
+| **Eliminar** | Vacía la base tras dos confirmaciones; conserva las fotos. |
+| **Actualizar** | Refresca las personas registradas. |
+
+```text
+data/
+├── faces.db       Identidades y embeddings
+├── photos/        Fotografías de registro
+├── recordings/    Videos anotados
+└── backups/       Copias previas a una importación
+```
+
+Estas rutas están excluidas de Git. Las fotos se copian por separado cuando
+importás una base SQLite. El respaldo ZIP incluye base y fotos; las grabaciones se gestionan aparte.
+
+<a id="tecnico"></a>
+
+<details>
+<summary><strong>Documentación técnica · modelos, comandos y pruebas</strong></summary>
+
+### Flujo de procesamiento
+
+```mermaid
+flowchart LR
+    A["Webcam · RTSP · Video"] --> B["Preparación de imagen"]
+    B --> C["YuNet: detección"]
+    C --> D["SFace: embeddings"]
+    D --> E["Comparación con SQLite"]
+    E --> F["Identidad o desconocido"]
+    F --> G["Vista y MP4 opcional"]
+    style A fill:#e8f2df,stroke:#08714c,color:#174c35
+    style E fill:#e8f2df,stroke:#08714c,color:#174c35
+    style G fill:#e8f2df,stroke:#08714c,color:#174c35
+```
+
+### Instalación y uso por consola
 
 ```powershell
 python -m venv .venv
@@ -186,60 +214,9 @@ faceguard download-models
 faceguard enroll --name "Ana" --samples 40
 faceguard recognize --camera 0 --threshold 0.36
 faceguard list
-faceguard delete --name "Ana"
 ```
 
-Para una cámara IP:
-
-```powershell
-faceguard recognize --camera "rtsp://usuario:clave@192.168.1.50/stream"
-```
-
-</details>
-
-<br />
-
-<a id="privacidad"></a>
-
-## 06 / Privacidad y uso responsable
-
-Las fotografías, nombres, videos y embeddings son datos sensibles. Para una
-presentación responsable ante una institución pública:
-
-- Obtén consentimiento antes de registrar a cada participante.
-- Señaliza las cámaras que realizan identificación.
-- Usa cuentas RTSP de solo lectura.
-- Cifra el disco y restringe el acceso a `data/`.
-- Define tiempos de conservación y eliminación.
-- Mantén revisión humana en cualquier decisión relevante.
-- No uses reconocimiento facial como único control de acceso.
-- Evalúa falsos positivos por cámara y condición de iluminación.
-- Documenta quién puede crear, importar, respaldar o eliminar la base.
-
-<br />
-
-## 07 / Arquitectura
-
-```mermaid
-flowchart LR
-    A[Webcam / RTSP / Video] --> B[CLAHE + Upscale]
-    B --> C[YuNet Detector]
-    C --> D[SFace / 128D]
-    D --> E[(SQLite local)]
-    E --> F{Umbral coseno}
-    F -->|coincide| G[Identidad conocida]
-    F -->|rechaza| H[Desconocido]
-    G --> I[Vista + MP4]
-    H --> I
-```
-
-```text
-src/faceguard/     motor, interfaz, calidad, SQLite y CLI
-tests/             pruebas unitarias sin cámara
-assets/            identidad visual del proyecto
-models/            modelos ONNX ignorados por Git
-data/              base, fotos y grabaciones ignoradas por Git
-```
+Los comandos conservan el nombre `faceguard`.
 
 ### Pruebas
 
@@ -248,9 +225,27 @@ pip install -r requirements-dev.txt
 pytest -q
 ```
 
+Código en `src/faceguard/`, pruebas en `tests/` y recursos visuales en `assets/`.
+
+</details>
+
+<details>
+<summary><strong>Presentación institucional y privacidad</strong></summary>
+
+Prototipo para demostración y evaluación. El repositorio no acredita aval oficial
+de la Gobernación de Santa Cruz.
+
+Registrá participantes con consentimiento, restringí el acceso a fotografías,
+embeddings y videos, y definí plazos de conservación. Para decisiones relevantes,
+mantené revisión humana y un método adicional de verificación.
+
+</details>
+
 <br />
 
+---
+
 <p align="center">
-  <strong>Verde por nuestra tierra. Blanco por nuestra gente. Datos bajo nuestro control.</strong><br />
-  <samp>PuejFace Santa Cruz // de una, puej — hecho con código y orgullo cruceño</samp>
+  <strong>PuejFace · Santa Cruz, Bolivia</strong><br />
+  <sub>De una, puej. Tecnología cercana, con los datos en casa.</sub>
 </p>
