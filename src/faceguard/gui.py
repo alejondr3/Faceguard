@@ -3,8 +3,10 @@ from __future__ import annotations
 import threading
 import time
 import tkinter as tk
+import zipfile
+from tempfile import TemporaryDirectory
 from pathlib import Path
-from tkinter import messagebox, ttk
+from tkinter import filedialog, messagebox, ttk
 
 import cv2
 from PIL import Image, ImageTk
@@ -111,6 +113,9 @@ class FaceGuardApp:
         ttk.Label(controls, textvariable=self.people, wraplength=260, justify="left").pack(anchor="w")
         ttk.Button(controls, text="Actualizar lista", command=self.refresh_people).pack(
             fill="x", pady=(10, 0)
+        )
+        ttk.Button(controls, text="💾  Crear respaldo", command=self.create_backup).pack(
+            fill="x", pady=(8, 0)
         )
         self.refresh_people()
 
@@ -279,6 +284,35 @@ class FaceGuardApp:
             if records
             else "Todavía no hay registros"
         )
+
+    def create_backup(self) -> None:
+        timestamp = time.strftime("%Y%m%d-%H%M%S")
+        selected = filedialog.asksaveasfilename(
+            title="Guardar respaldo completo",
+            defaultextension=".zip",
+            initialfile=f"respaldo-caras-{timestamp}.zip",
+            filetypes=[("Archivo ZIP", "*.zip")],
+        )
+        if not selected:
+            return
+        destination = Path(selected)
+        try:
+            with TemporaryDirectory() as temporary:
+                database_copy = self.database.backup(Path(temporary) / "faces.db")
+                with zipfile.ZipFile(destination, "w", zipfile.ZIP_DEFLATED) as archive:
+                    archive.write(database_copy, "data/faces.db")
+                    if self.settings.photos_dir.exists():
+                        for photo in self.settings.photos_dir.rglob("*"):
+                            if photo.is_file() and photo.resolve() != destination.resolve():
+                                relative = photo.relative_to(self.settings.photos_dir)
+                                archive.write(photo, Path("data/photos") / relative)
+            self.status.set(f"Respaldo creado: {destination.name}")
+            messagebox.showinfo(
+                "Respaldo terminado",
+                f"Se guardaron la base SQLite y las fotografías en:\n{destination}",
+            )
+        except Exception as error:
+            self._show_error("No se pudo crear el respaldo", error)
 
     def close(self) -> None:
         self.stop_camera(clear_status=False)
