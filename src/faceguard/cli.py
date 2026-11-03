@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import glob
+import math
 import time
 from pathlib import Path
 
@@ -95,9 +96,9 @@ def recognize(args, settings: Settings) -> None:
         raise RuntimeError("La base está vacía. Primero ejecuta: faceguard enroll --name NOMBRE")
     engine = FaceEngine(settings.models_dir, settings.detector_score_threshold)
     camera = open_camera(camera_source(args.camera))
-    vote = TemporalVote(settings.vote_window, settings.votes_required)
     frame_number = 0
-    cached = (None, 0.0)
+    next_track_id = 1
+    tracks: dict[int, dict] = {}
 
     while True:
         ok, frame = camera.read()
@@ -105,22 +106,50 @@ def recognize(args, settings: Settings) -> None:
             continue
         prepared = enhance_frame(frame)
         faces = engine.detect(prepared)
-        # En equipos lentos se puede calcular el embedding cada N cuadros.
-        if faces and frame_number % args.process_every == 0:
-            main_face = faces[0]
-            if min(main_face[2], main_face[3]) >= settings.min_face_size:
-                cached = database.best_match(
-                    engine.embedding(prepared, main_face), args.threshold
-                )
-        stable_name = vote.update(cached[0] if faces else None)
-        for index, face in enumerate(faces):
+        assigned_tracks: set[int] = set()
+        for face in faces:
             x, y, width, height = map(int, face[:4])
-            if index == 0 and stable_name:
-                label, color = f"{stable_name} ({cached[1]:.2f})", (40, 220, 40)
+            center = (x + width / 2, y + height / 2)
+            candidates = [
+                (math.dist(center, track["center"]), track_id)
+                for track_id, track in tracks.items()
+                if track_id not in assigned_tracks
+            ]
+            distance, track_id = min(candidates, default=(float("inf"), -1))
+            if distance > max(width, height) * 0.8:
+                track_id = next_track_id
+                next_track_id += 1
+                tracks[track_id] = {
+                    "center": center,
+                    "vote": TemporalVote(settings.vote_window, settings.votes_required),
+                    "name": None,
+                    "score": 0.0,
+                    "seen": frame_number,
+                }
+            track = tracks[track_id]
+            track["center"], track["seen"] = center, frame_number
+            assigned_tracks.add(track_id)
+
+            # En equipos lentos se puede calcular el embedding cada N cuadros.
+            if frame_number % args.process_every == 0 and min(width, height) >= settings.min_face_size:
+                candidate, score = database.best_match(
+                    engine.embedding(prepared, face), args.threshold
+                )
+                track["name"] = track["vote"].update(candidate)
+                track["score"] = score
+
+            if track["name"]:
+                label, color = f"{track['name']} ({track['score']:.2f})", (40, 220, 40)
             else:
-                label, color = f"Desconocido ({cached[1]:.2f})", (0, 80, 255)
+                label, color = f"Desconocido ({track['score']:.2f})", (0, 80, 255)
             cv2.rectangle(prepared, (x, y), (x + width, y + height), color, 2)
             cv2.putText(prepared, label, (x, max(25, y - 8)), cv2.FONT_HERSHEY_SIMPLEX, 0.7, color, 2)
+
+        tracks = {
+            track_id: track
+            for track_id, track in tracks.items()
+            if frame_number - track["seen"] <= 15
+        }
         cv2.imshow("Reconocimiento - Q para salir", prepared)
         frame_number += 1
         if cv2.waitKey(1) & 0xFF in (ord("q"), 27):
