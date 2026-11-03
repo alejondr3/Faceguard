@@ -11,6 +11,7 @@ ROOT = Path(__file__).resolve().parents[2]
 class Settings:
     database: Path = ROOT / "data" / "faces.db"
     photos_dir: Path = ROOT / "data" / "photos"
+    recordings_dir: Path = ROOT / "data" / "recordings"
     models_dir: Path = ROOT / "models"
     match_threshold: float = 0.40
     detector_score_threshold: float = 0.75
