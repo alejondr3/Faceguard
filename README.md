@@ -60,6 +60,11 @@ El botón **Crear respaldo** genera un ZIP con una copia consistente de
 `faces.db` y todas las fotografías de `data/photos/`. El usuario elige dónde
 guardarlo y no es necesario cerrar la aplicación.
 
+El botón **Eliminar base de datos** pide dos confirmaciones, elimina todas las
+identidades y embeddings y crea una base SQLite vacía. Las fotografías se
+conservan en `data/photos/` para evitar borrarlas accidentalmente; se recomienda
+crear un respaldo antes de usar esta opción.
+
 La ventana muestra la cámara en vivo, el avance de las fotografías y las
 personas registradas. La primera instalación necesita conexión a Internet.
 
