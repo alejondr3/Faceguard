@@ -3,7 +3,9 @@ from __future__ import annotations
 import argparse
 import glob
 import math
+import re
 import time
+from datetime import datetime, timezone
 from pathlib import Path
 
 import cv2
@@ -27,6 +29,26 @@ def open_camera(source):
     return camera
 
 
+def save_face_photo(frame, face, name: str, photos_dir: Path) -> Path:
+    """Guarda un recorte facial válido como parte del dataset local."""
+    safe_name = re.sub(r"[^\w.-]+", "_", name.strip(), flags=re.UNICODE).strip("._")
+    if not safe_name:
+        safe_name = "persona"
+    person_dir = photos_dir / safe_name
+    person_dir.mkdir(parents=True, exist_ok=True)
+    timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S_%fZ")
+    destination = person_dir / f"{timestamp}.jpg"
+    crop = crop_face(frame, face, margin=0.25)
+    if crop.size == 0:
+        raise RuntimeError(f"No se pudo guardar la foto en {destination}")
+    encoded, buffer = cv2.imencode(".jpg", crop, [cv2.IMWRITE_JPEG_QUALITY, 94])
+    if not encoded:
+        raise RuntimeError(f"No se pudo codificar la foto para {destination}")
+    # imwrite puede fallar con rutas Unicode en algunas versiones de OpenCV/Windows.
+    destination.write_bytes(buffer.tobytes())
+    return destination
+
+
 def enroll(args, settings: Settings) -> None:
     database = FaceDatabase(args.database or settings.database)
     engine = FaceEngine(settings.models_dir, settings.detector_score_threshold)
@@ -46,6 +68,8 @@ def enroll(args, settings: Settings) -> None:
             return False
         vector = engine.embedding(prepared, face)
         database.add_embedding(args.name, vector, quality)
+        if not args.no_save_photos:
+            save_face_photo(prepared, face, args.name, args.photos_dir or settings.photos_dir)
         collected += 1
         return True
 
@@ -78,6 +102,10 @@ def enroll(args, settings: Settings) -> None:
             now = time.monotonic()
             if quality >= args.min_quality and now - last_capture >= 0.35:
                 database.add_embedding(args.name, engine.embedding(prepared, face), quality)
+                if not args.no_save_photos:
+                    save_face_photo(
+                        prepared, face, args.name, args.photos_dir or settings.photos_dir
+                    )
                 collected += 1
                 last_capture = now
         cv2.putText(prepared, status, (20, 35), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 255, 0), 2)
@@ -172,6 +200,12 @@ def build_parser() -> argparse.ArgumentParser:
     enroll_parser.add_argument("--samples", type=int, default=20)
     enroll_parser.add_argument("--min-quality", type=float, default=0.35)
     enroll_parser.add_argument("--database", type=Path)
+    enroll_parser.add_argument("--photos-dir", type=Path)
+    enroll_parser.add_argument(
+        "--no-save-photos",
+        action="store_true",
+        help="Registrar embeddings sin conservar los recortes faciales",
+    )
 
     recognize_parser = sub.add_parser("recognize", help="Reconocer en tiempo real")
     recognize_parser.add_argument("--camera", default="0", help="Índice, archivo o URL RTSP")
