@@ -70,6 +70,12 @@ identidades y embeddings y crea una base SQLite vacía. Las fotografías se
 conservan en `data/photos/` para evitar borrarlas accidentalmente; se recomienda
 crear un respaldo antes de usar esta opción.
 
+El botón **Importar base SQLite** permite elegir otro archivo `.db`, `.sqlite` o
+`.sqlite3` creado por este proyecto. La aplicación valida las tablas, combina
+personas y embeddings y omite registros idénticos. Antes de modificar la base
+activa crea automáticamente un respaldo en `data/backups/`. Las fotografías no
+forman parte del archivo SQLite y deben copiarse por separado si se necesitan.
+
 La ventana muestra la cámara en vivo, el avance de las fotografías y las
 personas registradas. La primera instalación necesita conexión a Internet.
 
