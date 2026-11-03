@@ -200,7 +200,7 @@ un gestor de secretos en el despliegue real.
 
 ## Ajuste del umbral
 
-El umbral predeterminado es `0.40` (similitud coseno). Si confunde personas,
+El umbral predeterminado es `0.36` (similitud coseno). Si confunde personas,
 súbelo, por ejemplo a `0.48`. Si rechaza demasiadas coincidencias verdaderas,
 bájalo poco a poco, nunca sin evaluar falsos positivos:
 
@@ -211,6 +211,25 @@ faceguard recognize --threshold 0.48
 Para un control de acceso, no uses reconocimiento facial como único factor:
 combínalo con PIN, tarjeta o revisión humana. Calibra el umbral con imágenes de
 las cámaras reales y con personas que no estén registradas.
+
+### Calibración para cámaras de baja calidad
+
+La interfaz activa por defecto **Modo cámara de baja calidad**. Este modo amplía
+el cuadro a 1280 píxeles, mejora contraste, genera una segunda lectura con
+realce de detalle y conserva temporalmente una identidad durante cuadros
+borrosos. Consume más CPU.
+
+Para obtener mejores resultados:
+
+1. Registra nuevamente a cada persona usando la cámara de seguridad real o un
+   video grabado por ella, no solamente una webcam de buena calidad.
+2. Captura entre 40 y 60 fotos variando ángulo, distancia e iluminación.
+3. Empieza con umbral `0.36`. Si rechaza caras conocidas, prueba `0.34`; si
+   confunde personas diferentes, prueba `0.40` o `0.44`.
+4. Mantén también personas no registradas en la prueba para medir falsos
+   positivos. No bajes de `0.30`.
+5. Acerca la cámara o usa mayor resolución si la cara ocupa menos de unos 55
+   píxeles. El software no puede reconstruir detalles que nunca fueron captados.
 
 ## Base de datos
 
