@@ -5,14 +5,17 @@ echo.
 echo Instalando Reconocedor de caras...
 echo Este proceso puede tardar varios minutos.
 echo.
+set "PYTHON_CMD=py"
 where py >nul 2>nul
+if errorlevel 1 set "PYTHON_CMD=python"
+where %PYTHON_CMD% >nul 2>nul
 if errorlevel 1 (
-  echo ERROR: Python no esta instalado.
+  echo ERROR: Python no esta instalado o no esta en PATH.
   echo Descarga Python 3.10 o superior desde https://www.python.org/downloads/
   pause
   exit /b 1
 )
-py -m venv .venv
+%PYTHON_CMD% -m venv .venv
 if errorlevel 1 goto :error
 call .venv\Scripts\activate.bat
 python -m pip install --upgrade pip
