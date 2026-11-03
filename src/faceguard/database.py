@@ -36,6 +36,17 @@ class FaceDatabase:
     def close(self) -> None:
         self.connection.close()
 
+    def backup(self, destination: str | Path) -> Path:
+        """Crea una copia SQLite consistente incluso si la aplicación está abierta."""
+        destination = Path(destination)
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        target = sqlite3.connect(destination)
+        try:
+            self.connection.backup(target)
+        finally:
+            target.close()
+        return destination
+
     def add_embedding(self, name: str, vector: np.ndarray, quality: float) -> None:
         name = name.strip()
         if not name:
