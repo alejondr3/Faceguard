@@ -132,6 +132,9 @@ class FaceGuardApp:
         ttk.Button(controls, text="Actualizar lista", command=self.refresh_people).pack(
             fill="x", pady=(10, 0)
         )
+        ttk.Button(controls, text="📥  Importar base SQLite", command=self.import_database).pack(
+            fill="x", pady=(8, 0)
+        )
         ttk.Button(controls, text="💾  Crear respaldo", command=self.create_backup).pack(
             fill="x", pady=(8, 0)
         )
@@ -394,6 +397,40 @@ class FaceGuardApp:
             )
         except Exception as error:
             self._show_error("No se pudo crear el respaldo", error)
+
+    def import_database(self) -> None:
+        selected = filedialog.askopenfilename(
+            title="Seleccionar base SQLite para importar",
+            filetypes=[("Base SQLite", "*.db *.sqlite *.sqlite3"), ("Todos los archivos", "*.*")],
+        )
+        if not selected:
+            return
+        confirmed = messagebox.askyesno(
+            "Importar base SQLite",
+            "Se combinarán las personas y embeddings compatibles con la base actual.\n"
+            "Los registros idénticos serán omitidos y se creará un respaldo automático.\n\n"
+            "Las fotografías no están dentro del archivo SQLite y no se importarán.\n\n"
+            "¿Quieres continuar?",
+        )
+        if not confirmed:
+            return
+        try:
+            self.stop_camera(clear_status=False)
+            backup_dir = self.settings.database.parent / "backups"
+            timestamp = time.strftime("%Y%m%d-%H%M%S")
+            backup_path = self.database.backup(backup_dir / f"antes-importacion-{timestamp}.db")
+            people, embeddings, skipped = self.database.import_database(selected)
+            self.refresh_people()
+            self.status.set(f"Importación terminada: {people} personas, {embeddings} muestras")
+            messagebox.showinfo(
+                "Importación terminada",
+                f"Personas nuevas: {people}\n"
+                f"Embeddings agregados: {embeddings}\n"
+                f"Registros repetidos omitidos: {skipped}\n\n"
+                f"Respaldo previo: {backup_path}",
+            )
+        except Exception as error:
+            self._show_error("No se pudo importar la base SQLite", error)
 
     def delete_database(self) -> None:
         if not self.database.summary():
