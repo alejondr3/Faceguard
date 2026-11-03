@@ -10,10 +10,12 @@ requires-python = ">=3.10"
 dependencies = [
   "numpy>=1.26,<3",
   "opencv-contrib-python>=4.10,<5",
+  "pillow>=10,<13",
 ]
 
 [project.scripts]
 faceguard = "faceguard.cli:main"
+faceguard-gui = "faceguard.gui:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
