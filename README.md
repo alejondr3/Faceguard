@@ -109,6 +109,21 @@ No escribas la URL RTSP en código, capturas o commits: normalmente contiene la
 contraseña. Las grabaciones están excluidas de Git. Para operación continua se
 recomienda limitar el espacio de disco y definir cuánto tiempo se conservarán.
 
+## Analizar un video existente
+
+La interfaz también reconoce personas en videos que ya estén guardados:
+
+1. Abre `iniciar.bat` y pulsa **Elegir video**.
+2. Selecciona un archivo MP4, AVI, MOV, MKV, M4V o WMV.
+3. Activa **Grabar reconocimiento en video** si quieres conservar una copia con
+   los nombres y rectángulos dibujados.
+4. Pulsa **Iniciar reconocimiento**.
+5. El análisis se detendrá automáticamente al llegar al final del archivo.
+
+El video original nunca se modifica. Si se activó la grabación, el resultado se
+guarda como un MP4 nuevo dentro de `data/recordings/`. Las personas deben estar
+registradas previamente en la misma base SQLite.
+
 ## Instalación manual (usuarios técnicos)
 
 Requiere Python 3.10 o superior:
