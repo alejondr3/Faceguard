@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="480" viewBox="0 0 1280 480" role="img" aria-labelledby="t d">
+<title id="t">PuejFace — Reconocimiento facial con identidad cruceña</title><desc id="d">Portada verde bosque y marfil con un rostro geométrico, hojas tropicales y detalles rosados de tajibo.</desc>
+<defs>
+<linearGradient id="bg" x2="1" y2="1"><stop stop-color="#043e32"/><stop offset="1" stop-color="#08714c"/></linearGradient>
+<pattern id="grid" width="36" height="36" patternUnits="userSpaceOnUse"><path d="M36 0H0V36" fill="none" stroke="#bfe9cb" stroke-opacity=".045"/></pattern>
+<linearGradient id="panel" x2="0" y2="1"><stop stop-color="#f8f6e9"/><stop offset="1" stop-color="#deedda"/></linearGradient>
+</defs>
+<rect width="1280" height="480" rx="24" fill="url(#bg)"/><rect width="1280" height="480" rx="24" fill="url(#grid)"/>
+<path d="M0 447Q330 371 660 435T1280 402V480H0" fill="#c8e8c9" opacity=".07"/>
+<g font-family="Segoe UI,Arial,sans-serif">
+<rect x="60" y="54" width="237" height="30" rx="15" fill="#c7e9be" fill-opacity=".12" stroke="#a6dcb2" stroke-opacity=".4"/>
+<circle cx="77" cy="69" r="4" fill="#c4e9b5"/><text x="90" y="74" font-size="11" letter-spacing="2" fill="#dcefd7">DESDE SANTA CRUZ · BOLIVIA</text>
+<text x="55" y="188" font-size="88" font-weight="750" letter-spacing="-4" fill="#fcfaee">PuejFace<tspan fill="#badc9e">.</tspan></text>
+<text x="61" y="239" font-size="29" fill="#f5f5e8" font-weight="500">Reconocimiento facial. Al toque.</text>
+<text x="61" y="284" font-size="18" fill="#b7d6c5">Conectá tu cámara. Registrá a tu gente.</text>
+<text x="61" y="313" font-size="18" fill="#b7d6c5">Procesá cada imagen desde tu computadora.</text>
+<path d="M61 351H621" stroke="#aed4bb" stroke-opacity=".25"/>
+<text x="61" y="387" font-size="12" letter-spacing="2" fill="#e2ebd7">WEBCAM / RTSP / VIDEO</text>
+<text x="61" y="414" font-size="12" fill="#99c7ad">OpenCV + SFace + SQLite</text>
+<text x="625" y="414" text-anchor="end" font-size="12" fill="#c9dda9">DATOS EN CASA ↗</text>
+</g>
+<g transform="translate(736 42)">
+<rect width="482" height="396" rx="20" fill="url(#panel)"/>
+<path d="M0 325Q130 245 260 330T482 300V396H0" fill="#bbd5b5" opacity=".5"/>
+<g fill="none" stroke="#0b6849" stroke-width="2" opacity=".2"><circle cx="241" cy="192" r="143"/><circle cx="241" cy="192" r="117"/><path d="M241 32v320M81 192h320"/></g>
+<g transform="translate(100 44)">
+<path d="M80 190c-32 16-55 57-61 111h245c-6-54-29-95-61-111" fill="#b3cbb1" stroke="#398061" stroke-width="2"/>
+<path d="M141 28c-51 0-76 37-72 91 2 45 29 95 72 95s70-50 72-95c4-54-21-91-72-91" fill="#f7f2dd" stroke="#206b4e" stroke-width="3"/>
+<path d="M68 107c-4-59 28-90 73-90 50 0 83 38 73 99-13-14-23-35-27-53-23 29-64 36-119 44" fill="#12593e"/>
+<path d="M102 128h22m35 0h22m-46 32h13m-27 22q21 12 43 0" fill="none" stroke="#31664b" stroke-width="3" stroke-linecap="round"/>
+<g fill="#167447"><circle cx="112" cy="128" r="4"/><circle cx="170" cy="128" r="4"/><circle cx="141" cy="161" r="3"/><circle cx="122" cy="183" r="3"/><circle cx="163" cy="183" r="3"/></g>
+<path d="M40 93V48h40m122 0h40v45M40 185v45h40m122 0h40v-45" fill="none" stroke="#0b6849" stroke-width="4" stroke-linecap="round"/>
+<rect x="39" y="135" width="204" height="2" fill="#51ad70" opacity=".45"><animate attributeName="y" values="70;210;70" dur="6s" repeatCount="indefinite"/></rect>
+</g>
+<g transform="translate(30 302)" fill="#35754c"><path d="M26 63Q-2 25 8 0q35 18 18 63"/><path d="M26 63Q22 15 58 3q6 37-32 60"/><path d="M26 63Q43 37 80 43q-10 26-54 20"/></g>
+<g fill="#e5b8c5" transform="translate(404 57)"><circle cx="0" cy="0" r="13"/><circle cx="18" cy="0" r="13"/><circle cx="9" cy="-15" r="13"/><circle cx="9" cy="15" r="13"/><circle cx="9" cy="0" r="6" fill="#faf1d0"/></g>
+<rect x="230" y="343" width="226" height="32" rx="16" fill="#fffdf2" stroke="#b1cdb5"/>
+<circle cx="249" cy="359" r="4" fill="#168555"/><text x="262" y="363" fill="#276344" font-family="Segoe UI,Arial,sans-serif" font-size="11" letter-spacing="1">INFERENCIA LOCAL · 128D</text>
+</g>
+</svg>
