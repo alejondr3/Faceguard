@@ -1,39 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="330" viewBox="0 0 1200 330" role="img" aria-labelledby="title desc">
-  <title id="title">Terminal animada de FaceGuard</title>
-  <desc id="desc">Secuencia animada que muestra el arranque local del motor de reconocimiento</desc>
-  <defs>
-    <linearGradient id="terminal-bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#03070d"/>
-      <stop offset="1" stop-color="#07191b"/>
-    </linearGradient>
-    <filter id="terminal-glow"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-    <clipPath id="type-command"><rect x="74" y="69" width="0" height="27"><animate attributeName="width" from="0" to="970" dur="2.8s" fill="freeze" repeatCount="indefinite"/></rect></clipPath>
-  </defs>
-  <rect x="1" y="1" width="1198" height="328" rx="16" fill="url(#terminal-bg)" stroke="#1bd9c4" stroke-opacity=".55" stroke-width="2"/>
-  <path d="M1 43h1198" stroke="#1bd9c4" stroke-opacity=".28"/>
-  <circle cx="24" cy="22" r="6" fill="#ff5f57"/><circle cx="46" cy="22" r="6" fill="#febc2e"/><circle cx="68" cy="22" r="6" fill="#28c840"/>
-  <text x="600" y="27" text-anchor="middle" fill="#638a91" font-family="Consolas,monospace" font-size="14">faceguard@edge-node — secure shell</text>
-
-  <g font-family="Consolas, Menlo, monospace" font-size="18">
-    <text x="28" y="86" fill="#61ff9b">operator@edge-node:~$</text>
-    <text x="270" y="86" fill="#d7faff" clip-path="url(#type-command)">faceguard --uplink rtsp --low-quality --record</text>
-
-    <g opacity="0"><animate attributeName="opacity" values="0;0;1;1" keyTimes="0;.18;.23;1" dur="5.8s" repeatCount="indefinite"/>
-      <text x="28" y="130" fill="#34d9ff">[BOOT]</text><text x="112" y="130" fill="#aac8d2">loading YuNet detector + SFace vector engine...</text>
-    </g>
-    <g opacity="0"><animate attributeName="opacity" values="0;0;1;1" keyTimes="0;.35;.40;1" dur="5.8s" repeatCount="indefinite"/>
-      <text x="28" y="170" fill="#34d9ff">[LINK]</text><text x="112" y="170" fill="#aac8d2">RTSP uplink established // buffer=1 // edge inference</text>
-    </g>
-    <g opacity="0"><animate attributeName="opacity" values="0;0;1;1" keyTimes="0;.52;.57;1" dur="5.8s" repeatCount="indefinite"/>
-      <text x="28" y="210" fill="#34d9ff">[VAULT]</text><text x="122" y="210" fill="#aac8d2">SQLite biometric vectors mounted // cloud telemetry=0</text>
-    </g>
-    <g opacity="0"><animate attributeName="opacity" values="0;0;1;1" keyTimes="0;.69;.74;1" dur="5.8s" repeatCount="indefinite"/>
-      <text x="28" y="250" fill="#62ff8f" filter="url(#terminal-glow)">[ONLINE]</text><text x="132" y="250" fill="#d9ffe6">pipeline hot // unknown-class rejection armed</text>
-    </g>
-    <g opacity="0"><animate attributeName="opacity" values="0;0;1;1" keyTimes="0;.82;.86;1" dur="5.8s" repeatCount="indefinite"/>
-      <text x="28" y="290" fill="#ffcf5c">[OPSEC]</text><text x="122" y="290" fill="#aac8d2">process locally. retain minimally. deploy responsibly.</text>
-    </g>
-    <rect x="1040" y="69" width="11" height="21" fill="#62ff8f"><animate attributeName="opacity" values="1;0;1" dur=".8s" repeatCount="indefinite"/></rect>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="300" viewBox="0 0 1200 300" role="img" aria-labelledby="title desc">
+  <title id="title">Registro nocturno animado de FaceGuard</title><desc id="desc">Terminal monocromática que muestra el arranque del sistema</desc>
+  <defs><pattern id="scan" width="3" height="3" patternUnits="userSpaceOnUse"><rect width="1200" height="1" fill="#fff" opacity=".035"/></pattern></defs>
+  <rect width="1200" height="300" fill="#050505"/><rect width="1200" height="300" fill="url(#scan)"/><rect x="1" y="1" width="1198" height="298" fill="none" stroke="#555"/><path d="M1 38h1198" stroke="#444"/>
+  <text x="22" y="25" fill="#777" font-family="Consolas,monospace" font-size="13">● ● ●</text><text x="600" y="25" text-anchor="middle" fill="#666" font-family="Consolas,monospace" font-size="13">NIGHT OPERATOR / SESSION 005 / 03:17</text>
+  <g font-family="Consolas, Menlo, monospace" font-size="17">
+    <text x="24" y="72" fill="#eee">03:17  conectando ojos que no duermen...</text>
+    <g opacity="0"><animate attributeName="opacity" values="0;0;1;1" keyTimes="0;.14;.19;1" dur="6s" repeatCount="indefinite"/><text x="24" y="112" fill="#aaa">03:18  YuNet encontró un rostro donde antes había ruido.</text></g>
+    <g opacity="0"><animate attributeName="opacity" values="0;0;1;1" keyTimes="0;.31;.36;1" dur="6s" repeatCount="indefinite"/><text x="24" y="152" fill="#aaa">03:19  SFace convirtió una mirada en 128 números.</text></g>
+    <g opacity="0"><animate attributeName="opacity" values="0;0;1;1" keyTimes="0;.48;.53;1" dur="6s" repeatCount="indefinite"/><text x="24" y="192" fill="#aaa">03:20  SQLite recordó lo que la cámara casi olvidó.</text></g>
+    <g opacity="0"><animate attributeName="opacity" values="0;0;1;1" keyTimes="0;.65;.70;1" dur="6s" repeatCount="indefinite"/><text x="24" y="232" fill="#f4f4f4">03:21  MATCH / la sesión reconoce tu nombre.</text></g>
+    <g opacity="0"><animate attributeName="opacity" values="0;0;1;1" keyTimes="0;.82;.87;1" dur="6s" repeatCount="indefinite"/><text x="24" y="272" fill="#777">--:--  la cámara sigue abierta. la nube nunca estuvo aquí.</text></g>
+    <rect x="1042" y="57" width="10" height="19" fill="#eee"><animate attributeName="opacity" values="1;0;1" dur=".8s" repeatCount="indefinite"/></rect>
   </g>
 </svg>
 
