@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="430" viewBox="0 0 1200 430" role="img" aria-labelledby="title desc">
-  <title id="title">FaceGuard Santa Cruz — tecnología que cuida nuestra tierra</title>
+  <title id="title">PuejFace Santa Cruz — tecnología que cuida nuestra tierra</title>
   <desc id="desc">Portada verde y blanca inspirada en el paisaje y la identidad cruceña</desc>
   <defs>
     <linearGradient id="green" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#005c2b"/><stop offset="1" stop-color="#008b49"/></linearGradient>
@@ -7,44 +7,25 @@
     <pattern id="weave" width="12" height="12" patternUnits="userSpaceOnUse"><path d="M0 12L12 0M-3 3L3-3M9 15l6-6" stroke="#fff" stroke-opacity=".035"/></pattern>
     <filter id="glow"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
   </defs>
-  <rect width="1200" height="430" rx="22" fill="url(#green)"/><rect width="1200" height="430" rx="22" fill="url(#weave)"/>
-  <rect y="143" width="1200" height="144" fill="url(#sky)"/>
-
-  <!-- paisaje cruceño estilizado -->
+  <rect width="1200" height="430" rx="22" fill="url(#green)"/><rect width="1200" height="430" rx="22" fill="url(#weave)"/><rect y="143" width="1200" height="144" fill="url(#sky)"/>
   <g transform="translate(38 42)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round">
-    <rect width="330" height="346" rx="14" stroke-width="2" opacity=".55"/>
-    <path d="M18 58V18h40M312 58V18h-40M18 288v40h40M312 288v40h-40" stroke-width="5"/>
-    <ellipse cx="165" cy="139" rx="63" ry="80" stroke-width="3"/>
-    <path d="M93 315c8-76 33-110 72-110 41 0 67 34 74 110" stroke-width="3"/>
-    <path d="M122 129h25m35 0h25m-57 40h28m-43 18c20 13 40 13 60 0" stroke-width="3" opacity=".72"/>
-    <path d="M62 96h37m132 0h37M62 158h34m138 0h34M62 220h44m118 0h44" opacity=".35"/>
+    <rect width="330" height="346" rx="14" stroke-width="2" opacity=".55"/><path d="M18 58V18h40M312 58V18h-40M18 288v40h40M312 288v40h-40" stroke-width="5"/>
+    <ellipse cx="165" cy="139" rx="63" ry="80" stroke-width="3"/><path d="M93 315c8-76 33-110 72-110 41 0 67 34 74 110" stroke-width="3"/>
+    <path d="M122 129h25m35 0h25m-57 40h28m-43 18c20 13 40 13 60 0" stroke-width="3" opacity=".72"/><path d="M62 96h37m132 0h37M62 158h34m138 0h34M62 220h44m118 0h44" opacity=".35"/>
   </g>
-
-  <!-- catedral y vegetación en la franja blanca -->
   <g transform="translate(780 151)" fill="none" stroke="#007a3d" stroke-width="4" opacity=".74">
-    <path d="M38 120V45l28-30 28 30v75M205 120V45l28-30 28 30v75M94 120V70h111v50M122 70V45h55v25"/>
-    <path d="M66 15V0m167 15V0M52 120h195"/>
+    <path d="M38 120V45l28-30 28 30v75M205 120V45l28-30 28 30v75M94 120V70h111v50M122 70V45h55v25M66 15V0m167 15V0M52 120h195"/>
     <path d="M295 120V72m0 0c-45-25-48-57-48-57 36 3 52 23 48 57zm0 0c43-24 47-55 47-55-35 2-51 22-47 55zm0-18c-30-26-24-54-24-54 28 9 36 29 24 54z"/>
   </g>
-
   <g transform="translate(418 62)" font-family="Segoe UI, Arial, sans-serif">
     <text x="0" y="0" fill="#d8ffe8" font-family="Consolas, monospace" font-size="17" letter-spacing="4">PROYECTO TECNOLÓGICO // SANTA CRUZ</text>
-    <text x="0" y="78" fill="#fff" font-size="72" font-weight="800" letter-spacing="3">FACEGUARD</text>
+    <text x="0" y="78" fill="#fff" font-size="72" font-weight="800" letter-spacing="3">PUEJFACE</text>
     <text x="0" y="145" fill="#006b35" font-size="26" font-weight="700">RECONOCIMIENTO FACIAL LOCAL</text>
     <text x="0" y="188" fill="#28744c" font-size="18">YuNet · SFace · SQLite · RTSP · Video</text>
-    <text x="0" y="272" fill="#fff" font-size="25" font-weight="600">Tecnología hecha desde Santa Cruz</text>
-    <text x="0" y="306" fill="#d7ffe7" font-size="20">para cuidar a nuestra gente y nuestros datos.</text>
+    <text x="0" y="272" fill="#fff" font-size="25" font-weight="600">De una, puej. Todo en local.</text>
+    <text x="0" y="306" fill="#d7ffe7" font-size="20">Tecnología cruceña para cuidar gente y datos.</text>
   </g>
-
-  <!-- flor de patujú abstracta -->
-  <g transform="translate(1090 310) rotate(-15)">
-    <path d="M0 80C20 42 32 18 44 0" fill="none" stroke="#fff" stroke-width="5"/>
-    <path d="M37 18c-28-7-42 4-42 4 17 18 31 17 42-4" fill="#f5c400"/>
-    <path d="M43 5c18-10 37-3 37-3-8 23-23 27-37 3" fill="#df2b2b"/>
-    <path d="M25 41c-25-2-35 11-35 11 20 13 34 7 35-11" fill="#f5c400"/>
-    <path d="M32 29c21-7 37 3 37 3-12 20-27 21-37-3" fill="#df2b2b"/>
-  </g>
-
+  <g transform="translate(1090 310) rotate(-15)"><path d="M0 80C20 42 32 18 44 0" fill="none" stroke="#fff" stroke-width="5"/><path d="M37 18c-28-7-42 4-42 4 17 18 31 17 42-4" fill="#f5c400"/><path d="M43 5c18-10 37-3 37-3-8 23-23 27-37 3" fill="#df2b2b"/><path d="M25 41c-25-2-35 11-35 11 20 13 34 7 35-11" fill="#f5c400"/><path d="M32 29c21-7 37 3 37 3-12 20-27 21-37-3" fill="#df2b2b"/></g>
   <rect y="0" width="1200" height="6" fill="#fff" opacity=".75"/><rect y="424" width="1200" height="6" fill="#fff" opacity=".75"/>
   <rect x="0" y="0" width="1200" height="4" fill="#baffd2" opacity="0"><animate attributeName="y" values="8;418;8" dur="5s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;.55;0" dur="5s" repeatCount="indefinite"/></rect>
   <circle cx="1146" cy="55" r="7" fill="#fff" filter="url(#glow)"><animate attributeName="opacity" values="1;.25;1" dur="1.4s" repeatCount="indefinite"/></circle>

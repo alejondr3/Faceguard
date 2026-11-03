@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/readme-banner.svg" width="100%" alt="FaceGuard Santa Cruz — tecnología que cuida nuestra tierra." />
+  <img src="assets/puejface-banner-v2.svg" width="100%" alt="PuejFace Santa Cruz — tecnología que cuida nuestra tierra." />
 </p>
 
 <p align="center">
@@ -15,8 +15,8 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/github/actions/workflow/status/alejondr3/Reconocedor-de-caras/tests.yml?branch=main&style=flat-square&label=COMPILACI%C3%93N&color=007A3D" alt="Estado de compilación" />
-  <img src="https://img.shields.io/github/last-commit/alejondr3/Reconocedor-de-caras?style=flat-square&label=%C3%9ALTIMA%20ACTUALIZACI%C3%93N&color=007A3D" alt="Última actualización" />
+  <img src="https://img.shields.io/github/actions/workflow/status/alejondr3/PuejFace/tests.yml?branch=main&style=flat-square&label=COMPILACI%C3%93N&color=007A3D" alt="Estado de compilación" />
+  <img src="https://img.shields.io/github/last-commit/alejondr3/PuejFace?style=flat-square&label=%C3%9ALTIMA%20ACTUALIZACI%C3%93N&color=007A3D" alt="Última actualización" />
   <img src="https://img.shields.io/badge/Python-3.10%2B-007A3D?style=flat-square&logo=python&logoColor=white" alt="Python 3.10 o superior" />
   <img src="https://img.shields.io/badge/PROCESAMIENTO-LOCAL-007A3D?style=flat-square" alt="Procesamiento local" />
 </p>
@@ -33,7 +33,7 @@
 
 ## 01 / El proyecto
 
-**FaceGuard Santa Cruz** es un sistema local de reconocimiento facial para
+**PuejFace Santa Cruz** es un sistema local de reconocimiento facial para
 webcams, cámaras IP y videos existentes. Está pensado como una demostración de
 tecnología aplicada desde Santa Cruz, con énfasis en privacidad y funcionamiento
 con cámaras de calidad variable.
@@ -48,7 +48,7 @@ con cámaras de calidad variable.
 | `Recorder` | genera videos MP4 con nombres y rectángulos |
 
 <p align="center">
-  <img src="assets/live-terminal.svg" width="100%" alt="Nodo cruceño de FaceGuard funcionando en tiempo real." />
+  <img src="assets/live-terminal.svg" width="100%" alt="Nodo cruceño de PuejFace funcionando en tiempo real." />
 </p>
 
 <details>
@@ -252,5 +252,5 @@ pytest -q
 
 <p align="center">
   <strong>Verde por nuestra tierra. Blanco por nuestra gente. Datos bajo nuestro control.</strong><br />
-  <samp>FaceGuard Santa Cruz // hecho con código, cuidado y orgullo cruceño</samp>
+  <samp>PuejFace Santa Cruz // de una, puej — hecho con código y orgullo cruceño</samp>
 </p>
