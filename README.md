@@ -1,12 +1,43 @@
-# Reconocedor de caras
+<div align="center">
 
-Aplicación local de reconocimiento facial en tiempo real. Usa **YuNet** para
-detectar caras, **SFace** para convertirlas en embeddings y **SQLite** para
-guardar las muestras. No entrena una red desde cero: registra varias vistas de
-cada persona y las compara con un modelo preentrenado, que es la opción práctica
-cuando no se dispone de miles de imágenes etiquetadas.
+![FaceGuard — reconocimiento facial local](assets/readme-banner.svg)
 
-## Qué hace frente a cámaras de baja calidad
+[![Python](https://img.shields.io/badge/Python-3.10%2B-00d9ff?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![OpenCV](https://img.shields.io/badge/OpenCV-YuNet_%2B_SFace-4cff91?style=for-the-badge&logo=opencv&logoColor=white)](https://opencv.org/)
+[![SQLite](https://img.shields.io/badge/SQLite-Local-31c7ff?style=for-the-badge&logo=sqlite&logoColor=white)](https://sqlite.org/)
+[![License MIT](https://img.shields.io/badge/License-MIT-9b7bff?style=for-the-badge)](LICENSE)
+
+### `> IDENTIFY // TRACK // RECORD // STAY LOCAL`
+
+Reconocimiento facial en tiempo real para webcam, cámaras RTSP y archivos de
+video. Procesa todo localmente, conserva los embeddings en SQLite y no depende
+de servicios biométricos externos.
+
+[Instalar](#-instalación-rápida) · [Usar cámara IP](#-cámara-de-seguridad-en-tiempo-real-y-grabación) · [Analizar videos](#-analizar-un-video-existente) · [Base SQLite](#-base-de-datos) · [Privacidad](#-privacidad-y-uso-responsable)
+
+</div>
+
+---
+
+## ⚡ Capacidades
+
+| Módulo | Función |
+| --- | --- |
+| `DETECT` | Detección facial YuNet para una o varias personas |
+| `IDENTIFY` | Embeddings SFace y comparación local con SQLite |
+| `LOW-QUALITY` | CLAHE, escalado, realce doble y memoria temporal |
+| `LIVE` | Webcam y streams de cámaras de seguridad mediante RTSP |
+| `VIDEO` | Análisis de MP4, AVI, MOV, MKV, M4V y WMV |
+| `RECORD` | Exportación MP4 con nombres y rectángulos dibujados |
+| `DATA` | Importación, respaldo y eliminación segura de SQLite |
+| `PRIVACY` | Fotos, videos, modelos y bases excluidos de Git |
+
+> [!NOTE]
+> El sistema no entrena una red desde cero. Registra varias vistas de cada
+> persona y las compara usando modelos preentrenados; esto es más práctico y
+> preciso cuando no se dispone de miles de imágenes etiquetadas.
+
+## ◈ Cámaras de baja calidad
 
 - amplía cuadros pequeños con interpolación bicúbica;
 - aplica CLAHE para compensar luz y contraste deficientes;
@@ -19,7 +50,12 @@ Esto ayuda, pero ninguna técnica recupera detalle que la cámara nunca capturó
 Una cara de menos de ~55 píxeles, desenfoque fuerte, contraluz u oclusión puede
 seguir sin ser reconocible.
 
-## Tutorial de instalación en Windows (sin consola)
+## 🚀 Instalación rápida
+
+> **Windows, sin consola:** descarga el ZIP, descomprímelo, ejecuta
+> `instalar.bat` una sola vez y luego abre siempre con `iniciar.bat`.
+
+## 🧩 Tutorial de instalación en Windows (sin consola)
 
 ### Requisitos
 
@@ -79,7 +115,7 @@ forman parte del archivo SQLite y deben copiarse por separado si se necesitan.
 La ventana muestra la cámara en vivo, el avance de las fotografías y las
 personas registradas. La primera instalación necesita conexión a Internet.
 
-## Cámara de seguridad en tiempo real y grabación
+## 📡 Cámara de seguridad en tiempo real y grabación
 
 La cámara debe ofrecer un stream **RTSP**. Muchas cámaras IP y DVR/NVR lo tienen,
 pero algunas cámaras domésticas basadas únicamente en nube no lo permiten.
@@ -115,7 +151,7 @@ No escribas la URL RTSP en código, capturas o commits: normalmente contiene la
 contraseña. Las grabaciones están excluidas de Git. Para operación continua se
 recomienda limitar el espacio de disco y definir cuánto tiempo se conservarán.
 
-## Analizar un video existente
+## 🎞️ Analizar un video existente
 
 La interfaz también reconoce personas en videos que ya estén guardados:
 
@@ -130,7 +166,7 @@ El video original nunca se modifica. Si se activó la grabación, el resultado s
 guarda como un MP4 nuevo dentro de `data/recordings/`. Las personas deben estar
 registradas previamente en la misma base SQLite.
 
-## Instalación manual (usuarios técnicos)
+## 🛠️ Instalación manual (usuarios técnicos)
 
 Requiere Python 3.10 o superior:
 
@@ -142,7 +178,7 @@ faceguard download-models
 faceguard-gui
 ```
 
-## Uso rápido
+## ⌨️ Uso rápido por consola
 
 Registra una persona con 20 vistas tomadas desde la cámara predeterminada:
 
@@ -198,7 +234,7 @@ faceguard recognize --camera "rtsp://usuario:clave@192.168.1.50/stream"
 No guardes credenciales RTSP en scripts o commits. Usa variables de entorno o
 un gestor de secretos en el despliegue real.
 
-## Ajuste del umbral
+## 🎯 Ajuste del umbral
 
 El umbral predeterminado es `0.36` (similitud coseno). Si confunde personas,
 súbelo, por ejemplo a `0.48`. Si rechaza demasiadas coincidencias verdaderas,
@@ -231,7 +267,7 @@ Para obtener mejores resultados:
 5. Acerca la cámara o usa mayor resolución si la cara ocupa menos de unos 55
    píxeles. El software no puede reconstruir detalles que nunca fueron captados.
 
-## Base de datos
+## 🗄️ Base de datos
 
 Por defecto se crea `data/faces.db`, que contiene nombres, embeddings biométricos
 y puntajes de calidad. Las fotografías quedan separadas en `data/photos/`.
@@ -251,14 +287,14 @@ faceguard recognize --database D:/datos/faces.db
 Protege y cifra el disco donde se almacene: los embeddings son datos biométricos
 sensibles. Define retención, copias de seguridad y eliminación de datos.
 
-## Pruebas
+## 🧪 Pruebas
 
 ```bash
 pip install -r requirements-dev.txt
 pytest -q
 ```
 
-## Privacidad y uso responsable
+## 🛡️ Privacidad y uso responsable
 
 Úsalo únicamente con consentimiento informado y una finalidad legítima. Avisa
 cuando una cámara realiza identificación, limita quién accede a la base y
@@ -269,7 +305,7 @@ aplicables antes de desplegarlo en espacios públicos, trabajo, escuelas o para
 tomar decisiones relevantes. Evalúa precisión y falsos positivos por separado
 para las poblaciones y condiciones reales de uso.
 
-## Estructura
+## 🧬 Arquitectura del repositorio
 
 ```text
 src/faceguard/     motor, base SQLite, calidad, CLI y voto temporal
@@ -277,5 +313,16 @@ tests/             pruebas unitarias sin cámara
 models/            modelos descargados (ignorados por Git)
 data/              base local (ignorada por Git)
 ```
+
+---
+
+<div align="center">
+
+`[ CAMERA ] → [ YUNET ] → [ SFACE ] → [ SQLITE ] → [ IDENTITY ]`
+
+Construido para demostraciones responsables, procesamiento local y despliegues
+donde la privacidad importa.
+
+</div>
 
 
