@@ -32,3 +32,22 @@ def test_backup_is_readable(tmp_path):
     database.close()
 
 
+def test_import_database_merges_and_skips_duplicates(tmp_path):
+    active = FaceDatabase(tmp_path / "active.db")
+    ana = np.zeros(128, dtype=np.float32)
+    ana[0] = 1.0
+    luis = np.zeros(128, dtype=np.float32)
+    luis[1] = 1.0
+    active.add_embedding("Ana", ana, 0.8)
+    imported = FaceDatabase(tmp_path / "imported.db")
+    imported.add_embedding("Ana", ana, 0.8)
+    imported.add_embedding("Luis", luis, 0.7)
+    imported.close()
+
+    people, embeddings, skipped = active.import_database(tmp_path / "imported.db")
+
+    assert (people, embeddings, skipped) == (1, 1, 1)
+    assert active.summary() == [("Ana", 1), ("Luis", 1)]
+    active.close()
+
+
